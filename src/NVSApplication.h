@@ -20,6 +20,9 @@ public:
   NVSApplication();
 
   ~NVSApplication();
+
+  /// The main entrance of the application
+  virtual void run();
 };
 
 } // namespace of nvs

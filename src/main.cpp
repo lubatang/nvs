@@ -6,15 +6,12 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <curses.h>
+#include <NVSApplication.h>
+
+using namespace nvs;
 
 int main(int pArgc, char* pArgv[])
 {
-  do {
-    initscr(); /* must only be called once in each program */
-    /* do something */
-    refresh();
-  } while (1);
-
-  endwin();
+  NVSApplication app;
+  app.run();
 }

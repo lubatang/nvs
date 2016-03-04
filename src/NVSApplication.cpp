@@ -7,6 +7,7 @@
 //
 //===----------------------------------------------------------------------===//
 #include <NVSApplication.h>
+#include <curses.h>
 
 using namespace nvs;
 
@@ -15,8 +16,19 @@ using namespace nvs;
 //===----------------------------------------------------------------------===//
 NVSApplication::NVSApplication()
 {
+    ::initscr();
 }
 
 NVSApplication::~NVSApplication()
 {
+  /* curses must end with endwin() */
+  ::endwin();
+}
+
+void NVSApplication::run()
+{
+  ::printw("Hello World !!!");
+  do {
+    ::refresh();
+  } while (1);
 }
