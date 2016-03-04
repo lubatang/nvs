@@ -14,15 +14,15 @@ namespace nvs {
 /** \class NVSApplication
  *  \brief provides the application for MVC pattern.
  */
-class NVSApplication
+class Application
 {
 public:
-  NVSApplication();
+  Application();
 
-  ~NVSApplication();
+  ~Application();
 
   /// The main entrance of the application
-  virtual void run();
+  virtual void exec();
 };
 
 } // namespace of nvs

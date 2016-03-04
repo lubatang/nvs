@@ -6,13 +6,12 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <NVSApplication.h>
 #include <NVSView.h>
+#include <curses.h>
 
-int main(int pArgc, char* pArgv[])
+using namespace nvs;
+
+void View::show()
 {
-  nvs::Application app;
-  nvs::View view;
-  view.show();
-  app.exec();
+  ::printw("Hello World !!!");
 }

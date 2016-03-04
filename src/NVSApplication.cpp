@@ -12,22 +12,21 @@
 using namespace nvs;
 
 //===----------------------------------------------------------------------===//
-// NVSApplication
+// Application
 //===----------------------------------------------------------------------===//
-NVSApplication::NVSApplication()
+Application::Application()
 {
     ::initscr();
 }
 
-NVSApplication::~NVSApplication()
+Application::~Application()
 {
   /* curses must end with endwin() */
   ::endwin();
 }
 
-void NVSApplication::run()
+void Application::exec()
 {
-  ::printw("Hello World !!!");
   do {
     ::refresh();
   } while (1);

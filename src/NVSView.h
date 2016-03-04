@@ -6,13 +6,17 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <NVSApplication.h>
-#include <NVSView.h>
+#ifndef NVS_VIEW_H
+#define NVS_VIEW_H
 
-int main(int pArgc, char* pArgv[])
+namespace nvs {
+
+class View
 {
-  nvs::Application app;
-  nvs::View view;
-  view.show();
-  app.exec();
-}
+public:
+  void show();
+};
+
+} // namespace of nvs
+
+#endif
