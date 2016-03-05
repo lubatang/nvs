@@ -15,14 +15,11 @@ using namespace nvs;
 // Application
 //===----------------------------------------------------------------------===//
 Application::Application()
-{
-    ::initscr();
+  : m_Screen(*this) {
 }
 
 Application::~Application()
 {
-  /* curses must end with endwin() */
-  ::endwin();
 }
 
 void Application::exec()

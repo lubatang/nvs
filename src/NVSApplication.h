@@ -8,6 +8,7 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_APPLICATION_H
 #define NVS_APPLICATION_H
+#include <Screen.h>
 
 namespace nvs {
 
@@ -23,6 +24,9 @@ public:
 
   /// The main entrance of the application
   virtual void exec();
+
+private:
+  Screen m_Screen;
 };
 
 } // namespace of nvs

@@ -7,4 +7,6 @@ dist_nvs_SOURCES = main.cpp \
 	NVSView.h \
 	NVSView.cpp \
 	SVNClient.h \
-	SVNClient.cpp
+	SVNClient.cpp \
+	Screen.h \
+	Screen.cpp
