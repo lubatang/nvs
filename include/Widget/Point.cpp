@@ -6,25 +6,17 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <Screen.h>
-#include <NVSApplication.h>
-#include <curses.h>
+#include <Widget/Point.h>
 
 using namespace nvs;
 
 //===----------------------------------------------------------------------===//
-// Screen
+// Point
 //===----------------------------------------------------------------------===//
-Screen::Screen(Application& pParent)
-  : m_Parent(pParent), m_RowSize(-1), m_ColumnSize(-1), m_CurPoint(0, 0) {
-  WINDOW* window = initscr();
-  getmaxyx(window, m_RowSize, m_ColumnSize);
-  clear(); // curses call to clear screen, send cursor to position (0,0)
-  refresh();
+Point::Point()
+  : m_X(0), m_Y(0) {
 }
 
-Screen::~Screen()
-{
-  /* curses must end with endwin() */
-  endwin();
+Point::Point(int pX, int pY)
+  : m_X(pX), m_Y(pY) {
 }

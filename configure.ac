@@ -45,5 +45,7 @@ LT_INIT
 # OUTPUT
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_FILES([include/Makefile])
+AC_CONFIG_FILES([libNVSWidget/Makefile])
 
 AC_OUTPUT
