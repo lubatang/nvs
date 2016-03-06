@@ -8,13 +8,17 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_VIEW_H
 #define NVS_VIEW_H
+#include <Widget/Label.h>
 
 namespace nvs {
 
 class View
 {
 public:
-  void show();
+  View();
+
+private:
+  Label m_Label;
 };
 
 } // namespace of nvs

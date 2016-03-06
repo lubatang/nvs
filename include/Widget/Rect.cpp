@@ -14,7 +14,7 @@ using namespace nvs;
 // Rect
 //===----------------------------------------------------------------------===//
 Rect::Rect()
-  : m_X(-1), m_Y(-1), m_W(0), m_H(0) {
+  : m_X(0), m_Y(0), m_W(0), m_H(0) {
 }
 
 Rect::Rect(int pX, int pY, int pWidth, int pHeight)

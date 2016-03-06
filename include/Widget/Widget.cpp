@@ -7,14 +7,23 @@
 //
 //===----------------------------------------------------------------------===//
 #include <Widget/Widget.h>
+#include <curses.h>
 
 using namespace nvs;
+
+extern WINDOW* stdscr;
 
 //===----------------------------------------------------------------------===//
 // Widget
 //===----------------------------------------------------------------------===//
 Widget::Widget(Widget* pParent)
-  : Object(pParent), m_Size() {
+  : Object(pParent), m_pParent(pParent), m_Geometry() {
+}
+
+Widget::~Widget()
+{
+  if (nullptr != parent() && nullptr != win())
+    delwin(m_pWindow);
 }
 
 bool Widget::event(Event* pEvent)
@@ -28,4 +37,19 @@ bool Widget::event(Event* pEvent)
     result |= this->paintEvent(dynamic_cast<PaintEvent*>(pEvent));
 
   return result;
+}
+
+void Widget::resize(int pW, int pH)
+{
+  // TODO: emit resizeEvent to parents
+  m_Geometry.setWidth(pW);
+  m_Geometry.setHeight(pH);
+}
+
+void Widget::show()
+{
+  if (nullptr == parent())
+    m_pWindow = stdscr;
+  else
+    m_pWindow = newwin(height(), width(), y(), x());
 }

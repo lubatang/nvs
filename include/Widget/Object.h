@@ -10,6 +10,7 @@
 #define NVS_WIDGET_OBJECT_H
 #include <Widget/Event.h>
 #include <vector>
+#include <curses.h>
 
 namespace nvs {
 
@@ -30,7 +31,8 @@ public:
   /// an object.
   virtual bool event(Event* pEvent);
 
-  Object* parent() const { return m_pParent; }
+  /// The parent
+  virtual Object* parent() const = 0;
 
   /// Returns a list of child objects. The Children class is defined in
   /// <Object.h> header file as the following:
@@ -43,7 +45,6 @@ protected:
   void addChild(Object& pC) { m_Children.push_back(&pC); }
 
 protected:
-  Object* m_pParent;
   Children m_Children;
 };
 

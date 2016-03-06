@@ -62,13 +62,6 @@ void Application::exec()
   refresh();
 
   do {
-    // key event
-    int key = getch();
-    KeyEvent key_event(key);
-    ObjectList::iterator obj, oEnd = m_Objects.end();
-    for (obj = m_Objects.begin(); obj != oEnd; ++obj)
-      (*obj)->event(&key_event);
-
     // paint event
     refresh();
     // re-calculate max size in case the size of termial is changing.
@@ -76,7 +69,15 @@ void Application::exec()
     getmaxyx(stdscr, y, x);
     Rect rect(0, 0, x, y);
     PaintEvent paint_event(rect);
+    ObjectList::iterator obj, oEnd = m_Objects.end();
     for (obj = m_Objects.begin(); obj != oEnd; ++obj)
       (*obj)->event(&paint_event);
+
+    // key event
+    int key = getch();
+    KeyEvent key_event(key);
+    for (obj = m_Objects.begin(); obj != oEnd; ++obj)
+      (*obj)->event(&key_event);
+
   } while(1);
 }

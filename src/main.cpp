@@ -7,10 +7,12 @@
 //
 //===----------------------------------------------------------------------===//
 #include <Widget/Application.h>
-#include <NVSView.h>
+#include <Widget/Label.h>
 
 int main(int pArgc, char* pArgv[])
 {
   nvs::Application app;
+  nvs::Label label("Hello world!\nMy World!\n");
+  label.show();
   app.exec();
 }

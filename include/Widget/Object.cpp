@@ -14,12 +14,11 @@ using namespace nvs;
 // Object
 //===----------------------------------------------------------------------===//
 Object::Object(Object* pParent)
-  : m_pParent(pParent) {
-
+{
   if (nullptr == pParent)
     RegisterTopLevel(*this);
   else
-    m_pParent->addChild(*this);
+    pParent->addChild(*this);
 }
 
 Object::~Object()

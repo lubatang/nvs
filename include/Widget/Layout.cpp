@@ -15,6 +15,6 @@ using namespace nvs;
 // Layout
 //===----------------------------------------------------------------------===//
 Layout::Layout(Widget* pParent)
-  : Object(pParent) {
+  : Object(pParent), m_pParent(pParent) {
   assert(nullptr != pParent && "Layout must have a parent!");
 }

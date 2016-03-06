@@ -17,6 +17,11 @@ class Layout : public Object
 {
 public:
   explicit Layout(Widget* pParent);
+
+  Widget* parent() const { return m_pParent; }
+
+protected:
+  Widget* m_pParent;
 };
 
 } // namespace of nvs
