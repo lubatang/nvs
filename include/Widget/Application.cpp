@@ -14,6 +14,8 @@
 
 using namespace nvs;
 
+extern WINDOW* stdscr;
+
 static ManagedStatic<Application> g_App;
 
 //===----------------------------------------------------------------------===//
@@ -52,12 +54,19 @@ void Application::exec()
   do {
     // key event
     int key = getch();
-    KeyEvent event(key);
+    KeyEvent key_event(key);
     ObjectList::iterator obj, oEnd = m_Objects.end();
-    for (obj = m_Objects.begin(); obj != oEnd; ++obj) {
-      (*obj)->event(event);
-    }
+    for (obj = m_Objects.begin(); obj != oEnd; ++obj)
+      (*obj)->event(&key_event);
 
+    // paint event
     refresh();
+    // re-calculate max size in case the size of termial is changing.
+    int x, y;
+    getmaxyx(stdscr, y, x);
+    Rect rect(0, 0, x, y);
+    PaintEvent paint_event(rect);
+    for (obj = m_Objects.begin(); obj != oEnd; ++obj)
+      (*obj)->event(&paint_event);
   } while(1);
 }

@@ -8,10 +8,9 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_WIDGET_OBJECT_H
 #define NVS_WIDGET_OBJECT_H
+#include <Widget/Event.h>
 
 namespace nvs {
-
-class Event;
 
 class Object
 {
@@ -24,7 +23,7 @@ public:
   /// if the event @ref pEvent was recognized and processed.
   ///
   /// The event() function can be reimplemented to customize the behavior of an object.
-  virtual bool event(Event& pEvent) { return true; }
+  virtual bool event(Event* pEvent) { return true; }
 };
 
 /// Register an object to Application

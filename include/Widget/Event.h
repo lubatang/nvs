@@ -8,7 +8,6 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_WIDGET_EVENT_H
 #define NVS_WIDGET_EVENT_H
-#include <Widget/Object.h>
 #include <Widget/Rect.h>
 
 namespace nvs {
@@ -27,6 +26,8 @@ public:
 
 public:
   Event(Type pType);
+
+  virtual ~Event() { }
 
   Type type() const { return m_Type; }
 
