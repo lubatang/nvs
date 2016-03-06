@@ -6,13 +6,12 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#ifndef NVS_WIDGET_H
-#define NVS_WIDGET_H
-#include <Widget/Object.h>
+#ifndef NVS_WIDGET_OBJECT_H
+#define NVS_WIDGET_OBJECT_H
 
 namespace nvs {
 
-class Widget : public Object
+class Object
 {
 };
 

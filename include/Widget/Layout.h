@@ -8,10 +8,11 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_WIDGET_LAYOUT_H
 #define NVS_WIDGET_LAYOUT_H
+#include <Widget/Object.h>
 
 namespace nvs {
 
-class Layout
+class Layout : public Object
 {
 };
 
