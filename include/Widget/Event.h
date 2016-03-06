@@ -9,6 +9,7 @@
 #ifndef NVS_WIDGET_EVENT_H
 #define NVS_WIDGET_EVENT_H
 #include <Widget/Object.h>
+#include <Widget/Rect.h>
 
 namespace nvs {
 
@@ -20,7 +21,8 @@ class Event
 {
 public:
   enum Type {
-    KeyPress
+    KeyPress,
+    Paint
   };
 
 public:
@@ -51,8 +53,16 @@ protected:
 /** \class PaintEvent
  *  \brief The PaintEvent class contains event parameters for paint events.
  */
-class PaintEvent
+class PaintEvent : public Event
 {
+public:
+  explicit PaintEvent(const Rect& pRegion);
+
+  static bool classof(Event& pEvent) {
+    return (Event::Paint == pEvent.type());
+  }
+protected:
+  Rect m_Region;
 };
 
 } // namespace of nvs

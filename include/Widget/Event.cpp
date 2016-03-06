@@ -23,3 +23,10 @@ Event::Event(Type pType)
 KeyEvent::KeyEvent(int pKey)
   : Event(KeyPress), m_Key(pKey) {
 }
+
+//===----------------------------------------------------------------------===//
+// PaintEvent
+//===----------------------------------------------------------------------===//
+PaintEvent::PaintEvent(const Rect& pRegion)
+  : Event(Paint), m_Region(pRegion) {
+}
