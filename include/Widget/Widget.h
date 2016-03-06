@@ -15,11 +15,14 @@ namespace nvs {
 class Widget : public Object
 {
 public:
+  explicit Widget(Widget* pParent = nullptr);
+
   bool event(Event* pEvent);
 
   virtual bool keyEvent(KeyEvent* pEvent) { return true; }
 
   virtual bool paintEvent(PaintEvent* pEvent) { return true; }
+
 };
 
 } // namespace of nvs

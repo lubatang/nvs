@@ -13,11 +13,19 @@ using namespace nvs;
 //===----------------------------------------------------------------------===//
 // Widget
 //===----------------------------------------------------------------------===//
+Widget::Widget(Widget* pParent)
+  : Object(pParent) {
+}
+
 bool Widget::event(Event* pEvent)
 {
+  bool result = Object::event(pEvent);
+
   if (KeyEvent::classof(*pEvent))
-    return this->keyEvent(dynamic_cast<KeyEvent*>(pEvent));
+    result |= this->keyEvent(dynamic_cast<KeyEvent*>(pEvent));
 
   if (PaintEvent::classof(*pEvent))
-    return this->paintEvent(dynamic_cast<PaintEvent*>(pEvent));
+    result |= this->paintEvent(dynamic_cast<PaintEvent*>(pEvent));
+
+  return result;
 }

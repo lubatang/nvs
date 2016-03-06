@@ -7,17 +7,14 @@
 //
 //===----------------------------------------------------------------------===//
 #include <Widget/Layout.h>
+#include <assert.h>
 
 using namespace nvs;
 
 //===----------------------------------------------------------------------===//
 // Layout
 //===----------------------------------------------------------------------===//
-bool Layout::event(Event* pEvent)
-{
-  // bypass all events.
-  ComponentList::iterator component, cEnd = m_Components.end();
-  for (component = m_Components.begin(); component != cEnd; ++component)
-    (*component)->event(pEvent);
-  return true;
+Layout::Layout(Widget* pParent)
+  : Object(pParent) {
+  assert(nullptr != pParent && "Layout must have a parent!");
 }

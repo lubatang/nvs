@@ -39,7 +39,7 @@ public:
   static Application* instance();
 
 protected:
-  friend void RegisterObject(Object&);
+  friend void RegisterTopLevel(Object&);
 
   typedef std::deque<Object*> ObjectList;
 

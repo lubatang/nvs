@@ -27,7 +27,7 @@ Application* sApp()
   return Application::instance();
 }
 
-void nvs::RegisterObject(Object& pObject)
+void nvs::RegisterTopLevel(Object& pObject)
 {
   assert(nullptr != g_App && "No existing nvs::Application object");
   g_App->addObject(pObject);
