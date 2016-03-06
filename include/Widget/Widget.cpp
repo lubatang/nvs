@@ -14,7 +14,7 @@ using namespace nvs;
 // Widget
 //===----------------------------------------------------------------------===//
 Widget::Widget(Widget* pParent)
-  : Object(pParent) {
+  : Object(pParent), m_Size() {
 }
 
 bool Widget::event(Event* pEvent)
