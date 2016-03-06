@@ -8,8 +8,11 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_WIDGET_APPLICATION_H
 #define NVS_WIDGET_APPLICATION_H
+#include <deque>
 
 namespace nvs {
+
+class Object;
 
 /** \class Application
  *  \brief The Application class manages TUI application's control flow and main
@@ -32,6 +35,17 @@ public:
 
   /// The main entrance of the application
   void exec();
+
+protected:
+  friend void RegisterObject(Object&);
+
+  typedef std::deque<Object*> ObjectList;
+
+protected:
+  void addObject(Object& pObject) { m_Objects.push_back(&pObject); }
+
+protected:
+  ObjectList m_Objects;
 };
 
 Application* sApp();

@@ -11,9 +11,24 @@
 
 namespace nvs {
 
+class Event;
+
 class Object
 {
+public:
+  Object();
+
+  ~Object();
+
+  /// This virtual function receives events to an object and should return true
+  /// if the event @ref pEvent was recognized and processed.
+  ///
+  /// The event() function can be reimplemented to customize the behavior of an object.
+  virtual bool event(Event& pEvent) { return true; }
 };
+
+/// Register an object to Application
+void RegisterObject(Object& pObject);
 
 } // namespace of nvs
 

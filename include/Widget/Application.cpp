@@ -7,6 +7,8 @@
 //
 //===----------------------------------------------------------------------===//
 #include <Widget/Application.h>
+#include <Widget/Object.h>
+#include <Widget/Event.h>
 #include <Support/ManagedStatic.h>
 #include <curses.h>
 
@@ -22,6 +24,11 @@ Application* sApp()
   return &g_App;
 }
 
+void nvs::RegisterObject(Object& pObject)
+{
+  g_App->addObject(pObject);
+}
+
 //===----------------------------------------------------------------------===//
 // Application
 //===----------------------------------------------------------------------===//
@@ -33,6 +40,7 @@ Application::Application()
 Application::~Application()
 {
   endwin();
+  shutdown();
 }
 
 // The main event loop
@@ -42,7 +50,14 @@ void Application::exec()
   refresh();
 
   do {
-    // update all widgets
+    // key event
+    int key = getch();
+    KeyEvent event(key);
+    ObjectList::iterator obj, oEnd = m_Objects.end();
+    for (obj = m_Objects.begin(); obj != oEnd; ++obj) {
+      (*obj)->event(event);
+    }
+
     refresh();
   } while(1);
 }
