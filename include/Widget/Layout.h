@@ -9,11 +9,20 @@
 #ifndef NVS_WIDGET_LAYOUT_H
 #define NVS_WIDGET_LAYOUT_H
 #include <Widget/Object.h>
+#include <vector>
 
 namespace nvs {
 
 class Layout : public Object
 {
+public:
+  bool event(Event* pEvent);
+
+protected:
+  typedef std::vector<Object*> ComponentList;
+
+protected:
+  ComponentList m_Components;
 };
 
 } // namespace of nvs
