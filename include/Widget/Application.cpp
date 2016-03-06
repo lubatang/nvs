@@ -10,24 +10,27 @@
 #include <Widget/Object.h>
 #include <Widget/Event.h>
 #include <Support/ManagedStatic.h>
+#include <assert.h>
 #include <curses.h>
 
 using namespace nvs;
 
 extern WINDOW* stdscr;
 
-static ManagedStatic<Application> g_App;
+static Application* g_App = nullptr;
 
 //===----------------------------------------------------------------------===//
 // Non-member functions
 //===----------------------------------------------------------------------===//
 Application* sApp()
 {
-  return &g_App;
+  assert(nullptr != g_App && "No existing nvs::Application object");
+  return g_App;
 }
 
 void nvs::RegisterObject(Object& pObject)
 {
+  assert(nullptr != g_App && "No existing nvs::Application object");
   g_App->addObject(pObject);
 }
 
@@ -36,6 +39,8 @@ void nvs::RegisterObject(Object& pObject)
 //===----------------------------------------------------------------------===//
 Application::Application()
 {
+  assert(nullptr == g_App && "Multiple nvs::Application objects");
+  g_App = this;
   initscr();
 }
 
