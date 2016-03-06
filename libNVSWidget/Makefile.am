@@ -1,8 +1,9 @@
-AM_CPPFLAGS = -I../include
+AM_CPPFLAGS = -I../include -std=c++11
 
 lib_LTLIBRARIES = libNVSWidget.la
 
 libNVSWidget_la_SOURCES = ../include/Widget/Point.cpp \
-	../include/Widget/Application.cpp
+	../include/Widget/Application.cpp \
+	../include/Support/ManagedStatic.cpp
 
 libNVSWidget_la_LIBADD = -lcurses

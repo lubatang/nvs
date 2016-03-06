@@ -6,13 +6,11 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <NVSApplication.h>
+#include <Widget/Application.h>
 #include <NVSView.h>
 
 int main(int pArgc, char* pArgv[])
 {
   nvs::Application app;
-  nvs::View view;
-  view.show();
   app.exec();
 }

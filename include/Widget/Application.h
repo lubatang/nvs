@@ -12,7 +12,16 @@
 namespace nvs {
 
 /** \class Application
- *  \brief provides the application for MVC pattern.
+ *  \brief The Application class manages TUI application's control flow and main
+ *  settings.
+ *
+ *  Application contains the main event loop, where all events from the widget
+ *  system and other sources are processed and dispatched. It also handles
+ *  the application's initialization and finalization. In addition, Application
+ *  handles most of the system-wide and application-wide settings.
+ *
+ *  There is precisely one Application object, no matter whether the application
+ *  has multiple windows at any given time.
  */
 class Application
 {
@@ -22,8 +31,10 @@ public:
   ~Application();
 
   /// The main entrance of the application
-  virtual void exec();
+  void exec();
 };
+
+Application* sApp();
 
 } // namespace of nvs
 
