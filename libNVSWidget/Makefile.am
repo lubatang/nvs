@@ -4,6 +4,9 @@ lib_LTLIBRARIES = libNVSWidget.la
 
 libNVSWidget_la_SOURCES = ../include/Widget/Point.cpp \
 	../include/Widget/Application.cpp \
+	../include/Widget/Object.cpp \
+	../include/Widget/Layout.cpp \
+	../include/Widget/Widget.cpp \
 	../include/Support/ManagedStatic.cpp
 
 libNVSWidget_la_LIBADD = -lcurses
