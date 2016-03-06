@@ -24,8 +24,7 @@ static Application* g_App = nullptr;
 //===----------------------------------------------------------------------===//
 Application* sApp()
 {
-  assert(nullptr != g_App && "No existing nvs::Application object");
-  return g_App;
+  return Application::instance();
 }
 
 void nvs::RegisterObject(Object& pObject)
@@ -48,6 +47,12 @@ Application::~Application()
 {
   endwin();
   shutdown();
+}
+
+Application* Application::instance()
+{
+  assert(nullptr != g_App && "No existing nvs::Application object");
+  return g_App;
 }
 
 // The main event loop

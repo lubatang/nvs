@@ -36,6 +36,8 @@ public:
   /// The main entrance of the application
   void exec();
 
+  static Application* instance();
+
 protected:
   friend void RegisterObject(Object&);
 
@@ -48,6 +50,8 @@ protected:
   ObjectList m_Objects;
 };
 
+/// A global pointer referring to the unique application object. It's
+/// equivalent to the pointer returned by the Application::instance
 Application* sApp();
 
 } // namespace of nvs
