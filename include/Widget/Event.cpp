@@ -30,3 +30,10 @@ KeyEvent::KeyEvent(int pKey)
 PaintEvent::PaintEvent(const Rect& pRegion)
   : Event(Paint), m_Region(pRegion) {
 }
+
+//===----------------------------------------------------------------------===//
+// MoveEvent
+//===----------------------------------------------------------------------===//
+MoveEvent::MoveEvent(const Point& pNew, const Point& pOld)
+  : m_NewPos(pNew), m_OldPos(pOld) {
+}

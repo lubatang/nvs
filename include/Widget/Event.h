@@ -21,7 +21,8 @@ class Event
 public:
   enum Type {
     KeyPress,
-    Paint
+    Paint,
+    Move
   };
 
 public:
@@ -47,6 +48,8 @@ public:
     return (Event::KeyPress == pEvent.type());
   }
 
+  int key() const { return m_Key; }
+
 protected:
   int m_Key;
 };
@@ -64,6 +67,27 @@ public:
   }
 protected:
   Rect m_Region;
+};
+
+/** \class MoveEvent
+ *  \brief The QMoveEvent class contains event parameters for move events.
+ */
+class MoveEvent : public Event
+{
+public:
+  MoveEvent(const Point& pNew, const Point& pOld);
+
+  const Point& pos() const { return m_NewPos; }
+
+  const Point& oldPos() const { return m_OldPos; }
+
+  static bool classof(Event& pEvent) {
+    return (Event::Move == pEvent.type());
+  }
+
+protected:
+  Point m_NewPos;
+  Point m_OldPos;
 };
 
 } // namespace of nvs
