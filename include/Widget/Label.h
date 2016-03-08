@@ -36,6 +36,8 @@ public:
 
   bool paintEvent(PaintEvent* pEvent);
 
+  bool moveEvent(MoveEvent* pEvent);
+
 protected:
   std::string m_Text;
   bool m_ScaledContents;

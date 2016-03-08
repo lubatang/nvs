@@ -35,5 +35,5 @@ PaintEvent::PaintEvent(const Rect& pRegion)
 // MoveEvent
 //===----------------------------------------------------------------------===//
 MoveEvent::MoveEvent(const Point& pNew, const Point& pOld)
-  : m_NewPos(pNew), m_OldPos(pOld) {
+  : Event(Move), m_NewPos(pNew), m_OldPos(pOld) {
 }

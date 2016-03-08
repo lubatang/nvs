@@ -41,6 +41,8 @@ Application::Application()
   assert(nullptr == g_App && "Multiple nvs::Application objects");
   g_App = this;
   initscr();
+  cbreak(); //< Line buffering disabled, Pass on everty thing to me
+  keypad(stdscr, true); //< I need that nifty Fn
 }
 
 Application::~Application()
@@ -64,6 +66,7 @@ void Application::exec()
   do {
     // paint event
     refresh();
+
     // re-calculate max size in case the size of termial is changing.
     int x, y;
     getmaxyx(stdscr, y, x);
@@ -71,13 +74,13 @@ void Application::exec()
     PaintEvent paint_event(rect);
     ObjectList::iterator obj, oEnd = m_Objects.end();
     for (obj = m_Objects.begin(); obj != oEnd; ++obj)
-      (*obj)->event(&paint_event);
+      (*obj)->doEvent(&paint_event);
 
     // key event
     int key = getch();
     KeyEvent key_event(key);
     for (obj = m_Objects.begin(); obj != oEnd; ++obj)
-      (*obj)->event(&key_event);
+      (*obj)->doEvent(&key_event);
 
   } while(1);
 }

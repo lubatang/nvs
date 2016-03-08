@@ -22,14 +22,14 @@ public:
 public:
   Object(Object* pParent = nullptr);
 
-  ~Object();
+  ~Object() { }
 
   /// This virtual function receives events to an object and should return true
   /// if the event @ref pEvent was recognized and processed.
   ///
   /// The event() function can be reimplemented to customize the behavior of
   /// an object.
-  virtual bool event(Event* pEvent);
+  virtual bool event(Event* pEvent) { return true; }
 
   /// The parent
   virtual Object* parent() const = 0;
@@ -42,7 +42,11 @@ public:
   const Children& children() const { return m_Children; }
 
 protected:
+  friend class Application;
+
   void addChild(Object& pC) { m_Children.push_back(&pC); }
+
+  virtual bool doEvent(Event* pEvent);
 
 protected:
   Children m_Children;

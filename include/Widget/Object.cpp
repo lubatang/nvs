@@ -21,16 +21,12 @@ Object::Object(Object* pParent)
     pParent->addChild(*this);
 }
 
-Object::~Object()
-{
-}
-
-bool Object::event(Event* pEvent)
+bool Object::doEvent(Event* pEvent)
 {
   // by pass all events to the children.
-  bool result = true;
+  bool result = event(pEvent);
   Children::iterator child, cEnd = m_Children.end();
   for (child = m_Children.begin(); child != cEnd; ++child)
-    result |= (*child)->event(pEvent);
+    result |= (*child)->doEvent(pEvent);
   return result;
 }
