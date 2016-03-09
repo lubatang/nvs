@@ -1,4 +1,4 @@
-AM_CPPFLAGS = -I../include -std=c++11
+AM_CPPFLAGS = -I${abs_top_srcdir}/include -std=c++11
 
 lib_LTLIBRARIES = libNVSWidget.la
 
