@@ -2,3 +2,15 @@
                    NVS: Text-mode Interface for Subversion
 ------------------------------------------------------------------------------
   "Anything like Git's tig for SVN?" Yap, you get NVS.
+
+------------------------------------------------------------------------------
+ Design Memo
+------------------------------------------------------------------------------
+The Widget system bases on tree fundations:
+  1. Family tree builds the event path
+    Pressing keys, pop-up widgets and all the other events are passed through
+    the family tree. The class Application emits events to all top-level
+    Object objects. Every Object object passes the event to its children.
+
+  2. Layout tree bookkeeps WINDOW strcutres
+    When you create a Layout object, the system creates a WINDOW for you.
