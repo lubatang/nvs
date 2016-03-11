@@ -22,6 +22,8 @@ namespace nvs {
 class Widget : public Object
 {
 public:
+  /// A widget shares WINDOW with its parents. A orphan widget uses stdscr
+  /// WINDOW.
   explicit Widget(Widget* pParent = nullptr);
 
   virtual ~Widget();
@@ -57,7 +59,7 @@ public:
 
   virtual void hide();
 
-  void move(int pX, int pY);
+  virtual void move(int pX, int pY);
 
   Widget* parent() const { return m_pParent; }
 
