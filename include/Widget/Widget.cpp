@@ -22,8 +22,10 @@ static Layout* g_Layout = nullptr;
 Widget::Widget(Widget* pParent)
   : m_pParent(pParent), m_Geometry(), m_pWindow(nullptr),
     m_bVisible(false) {
-  if (nullptr == pParent)
+  if (nullptr == pParent) {
     m_pWindow = stdscr;
+    RegisterTopLevel(this);
+  }
   else {
     m_pWindow = pParent->win();
     pParent->addChild(this);

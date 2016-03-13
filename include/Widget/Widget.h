@@ -100,7 +100,7 @@ protected:
 };
 
 /// Register an object to Application
-void RegisterTopLevel(Widget& pWidget);
+void RegisterTopLevel(Widget* pWidget);
 
 } // namespace of nvs
 

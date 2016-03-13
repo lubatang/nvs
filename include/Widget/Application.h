@@ -38,13 +38,15 @@ public:
 
   static Application* instance();
 
+  unsigned int getNumOfChildren() const { return m_Widgets.size(); }
+
 protected:
-  friend void RegisterTopLevel(Widget&);
+  friend void RegisterTopLevel(Widget*);
 
   typedef std::deque<Widget*> WidgetList;
 
 protected:
-  void addWidget(Widget& pWidget) { m_Widgets.push_back(&pWidget); }
+  void addWidget(Widget* pWidget) { m_Widgets.push_back(pWidget); }
 
 protected:
   WidgetList m_Widgets;

@@ -27,7 +27,7 @@ Application* sApp()
   return Application::instance();
 }
 
-void nvs::RegisterTopLevel(Widget& pWidget)
+void nvs::RegisterTopLevel(Widget* pWidget)
 {
   assert(nullptr != g_App && "No existing nvs::Application object");
   g_App->addWidget(pWidget);
