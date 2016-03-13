@@ -69,6 +69,12 @@ public:
 
   bool isVisible() const { return m_bVisible; }
 
+  /// set the top-level layout manager.
+  static void setLayout(Layout* pLayout);
+
+  /// return the top-level layout.
+  static Layout* layout();
+
 protected:
   Rect m_Geometry;
   Widget* m_pParent;

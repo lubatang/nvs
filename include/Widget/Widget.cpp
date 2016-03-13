@@ -7,12 +7,14 @@
 //
 //===----------------------------------------------------------------------===//
 #include <Widget/Widget.h>
+#include <Widget/Layout.h>
 #include <curses.h>
 #include <iostream>
 
 using namespace nvs;
 
 extern WINDOW* stdscr;
+static Layout* g_Layout = nullptr;
 
 //===----------------------------------------------------------------------===//
 // Widget
@@ -75,4 +77,14 @@ void Widget::hide()
 {
   setVisible(false);
   // clean up
+}
+
+Layout* Widget::layout()
+{
+  return g_Layout;
+}
+
+void Widget::setLayout(Layout* pLayout)
+{
+  g_Layout = pLayout;
 }
