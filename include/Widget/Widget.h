@@ -8,8 +8,12 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_WIDGET_H
 #define NVS_WIDGET_H
-#include <Widget/Object.h>
 #include <Widget/Point.h>
+#include <Widget/Rect.h>
+#include <Widget/Event.h>
+#include <Widget/Layout.h>
+#include <curses.h>
+#include <vector>
 
 namespace nvs {
 
@@ -19,8 +23,11 @@ namespace nvs {
  *  Widgets with the same ancestor have handles the same window. Child widget
  *  is visibly above parent widget, and turn on and off at the same time.
  */
-class Widget : public Object
+class Widget
 {
+public:
+  typedef std::vector<Widget*> Children;
+
 public:
   /// A widget shares WINDOW with its parents. A orphan widget uses stdscr
   /// WINDOW.
@@ -75,12 +82,25 @@ public:
   /// return the top-level layout.
   static Layout* layout();
 
+  const Children& children() const { return m_Children; }
+
+  void addChild(Widget* pC) { m_Children.push_back(pC); }
+
 protected:
-  Rect m_Geometry;
+  friend class Application;
+
+  virtual bool doEvent(Event* pEvent);
+
+protected:
   Widget* m_pParent;
+  Children m_Children;
+  Rect m_Geometry;
   WINDOW* m_pWindow;
   bool m_bVisible;
 };
+
+/// Register an object to Application
+void RegisterTopLevel(Widget& pWidget);
 
 } // namespace of nvs
 

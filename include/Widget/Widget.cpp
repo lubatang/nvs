@@ -20,17 +20,29 @@ static Layout* g_Layout = nullptr;
 // Widget
 //===----------------------------------------------------------------------===//
 Widget::Widget(Widget* pParent)
-  : Object(pParent), m_pParent(pParent), m_Geometry(), m_pWindow(nullptr),
+  : m_pParent(pParent), m_Geometry(), m_pWindow(nullptr),
     m_bVisible(false) {
   if (nullptr == pParent)
     m_pWindow = stdscr;
-  else
+  else {
     m_pWindow = pParent->win();
+    pParent->addChild(this);
+  }
 }
 
 Widget::~Widget()
 {
   // The derived widget who calls newwin() is responsible for calling delwin().
+}
+
+bool Widget::doEvent(Event* pEvent)
+{
+  // by pass all events to the children.
+  bool result = event(pEvent);
+  Children::iterator child, cEnd = m_Children.end();
+  for (child = m_Children.begin(); child != cEnd; ++child)
+    result |= (*child)->doEvent(pEvent);
+  return result;
 }
 
 bool Widget::event(Event* pEvent)

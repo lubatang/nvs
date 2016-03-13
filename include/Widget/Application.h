@@ -12,7 +12,7 @@
 
 namespace nvs {
 
-class Object;
+class Widget;
 
 /** \class Application
  *  \brief The Application class manages TUI application's control flow and main
@@ -39,15 +39,15 @@ public:
   static Application* instance();
 
 protected:
-  friend void RegisterTopLevel(Object&);
+  friend void RegisterTopLevel(Widget&);
 
-  typedef std::deque<Object*> ObjectList;
-
-protected:
-  void addObject(Object& pObject) { m_Objects.push_back(&pObject); }
+  typedef std::deque<Widget*> WidgetList;
 
 protected:
-  ObjectList m_Objects;
+  void addWidget(Widget& pWidget) { m_Widgets.push_back(&pWidget); }
+
+protected:
+  WidgetList m_Widgets;
 };
 
 /// A global pointer referring to the unique application object. It's

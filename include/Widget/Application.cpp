@@ -7,7 +7,7 @@
 //
 //===----------------------------------------------------------------------===//
 #include <Widget/Application.h>
-#include <Widget/Object.h>
+#include <Widget/Widget.h>
 #include <Widget/Event.h>
 #include <Support/ManagedStatic.h>
 #include <assert.h>
@@ -27,10 +27,10 @@ Application* sApp()
   return Application::instance();
 }
 
-void nvs::RegisterTopLevel(Object& pObject)
+void nvs::RegisterTopLevel(Widget& pWidget)
 {
   assert(nullptr != g_App && "No existing nvs::Application object");
-  g_App->addObject(pObject);
+  g_App->addWidget(pWidget);
 }
 
 //===----------------------------------------------------------------------===//
@@ -72,15 +72,15 @@ void Application::exec()
     getmaxyx(stdscr, y, x);
     Rect rect(0, 0, x, y);
     PaintEvent paint_event(rect);
-    ObjectList::iterator obj, oEnd = m_Objects.end();
-    for (obj = m_Objects.begin(); obj != oEnd; ++obj)
-      (*obj)->doEvent(&paint_event);
+    WidgetList::iterator widget, wEnd = m_Widgets.end();
+    for (widget = m_Widgets.begin(); widget != wEnd; ++widget)
+      (*widget)->doEvent(&paint_event);
 
     // key event
     int key = getch();
     KeyEvent key_event(key);
-    for (obj = m_Objects.begin(); obj != oEnd; ++obj)
-      (*obj)->doEvent(&key_event);
+    for (widget = m_Widgets.begin(); widget != wEnd; ++widget)
+      (*widget)->doEvent(&key_event);
 
   } while(1);
 }

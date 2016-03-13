@@ -41,12 +41,7 @@ public:
   /// @endcode
   const Children& children() const { return m_Children; }
 
-protected:
-  friend class Application;
-
   void addChild(Object& pC) { m_Children.push_back(&pC); }
-
-  virtual bool doEvent(Event* pEvent);
 
 protected:
   Children m_Children;
