@@ -67,18 +67,10 @@ void Application::exec()
     // paint event
     refresh();
 
-    // re-calculate max size in case the size of termial is changing.
-    int x, y;
-    getmaxyx(stdscr, y, x);
-    Rect rect(0, 0, x, y);
-    PaintEvent paint_event(rect);
-    WidgetList::iterator widget, wEnd = m_Widgets.end();
-    for (widget = m_Widgets.begin(); widget != wEnd; ++widget)
-      (*widget)->doEvent(&paint_event);
-
     // key event
     int key = getch();
     KeyEvent key_event(key);
+    WidgetList::iterator widget, wEnd = m_Widgets.end();
     for (widget = m_Widgets.begin(); widget != wEnd; ++widget)
       (*widget)->doEvent(&key_event);
 
