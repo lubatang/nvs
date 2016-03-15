@@ -5,4 +5,5 @@ nobase_include_HEADERS = Widget/Point.h \
 	Widget/Event.h \
 	Widget/Rect.h \
 	Widget/Label.h \
+	Widget/MainWindow.h \
 	Support/ManagedStatic.h
