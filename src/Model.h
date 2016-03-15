@@ -15,32 +15,36 @@ namespace nvs {
 
 struct Change
 {
-  enum Qualifier {
+public:
+  enum Kind {
+    File,
+    Directory
+  };
+
+  enum Action {
     Edited,
     Added,
     Deleted
   };
 
-  std::string file;
-  Qualifier qualifier;
-  std::vector<std::string> diffs;
-  
+public:
+  Kind kind;
+  Action action;
+  std::string path;
+  std::string diffs;
 };
 
-struct Commit
+struct Log
 {
-  std::string revision;
-  std::string timestamp;
+public:
+  typedef std::vector<Change> ChangeList;
+
+public:
+  unsigned int revision;
   std::string author;
-  std::string log;
-  std::vector<Change> changes;
-};
-
-/** \class Model
- *  \brief The Model class contains all information of SVN.
- */
-typedef std::vector<Commit> Model;
-
+  struct tm timestamp;
+  std::string message;
+  ChangeList changes;
 };
 
 } // namespace of nvs
