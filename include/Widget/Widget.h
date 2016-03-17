@@ -95,7 +95,7 @@ protected:
   Widget* m_pParent;
   Children m_Children;
   Rect m_Geometry;
-  WINDOW* m_pWindow;
+  Layout* m_pLayout;
   bool m_bVisible;
 };
 
