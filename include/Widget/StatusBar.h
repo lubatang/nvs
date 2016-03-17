@@ -6,17 +6,16 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <Widget/MainWindow.h>
+#ifndef NVS_WIDGET_STATUSBAR_H
+#define NVS_WIDGET_STATUSBAR_H
+#include <Widget/Widget.h>
 
-using namespace nvs;
+namespace nvs {
 
-//===----------------------------------------------------------------------===//
-// MainWindow
-//===----------------------------------------------------------------------===//
-MainWindow::MainWindow()
-  : Widget() {
-}
-
-MainWindow::~MainWindow()
+class StatusBar : public Widget
 {
-}
+};
+
+} // namespace of nvs
+
+#endif
