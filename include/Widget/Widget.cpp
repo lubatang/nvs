@@ -20,16 +20,11 @@ static Layout* g_Layout = nullptr;
 // Widget
 //===----------------------------------------------------------------------===//
 Widget::Widget(Widget* pParent)
-  : m_pParent(pParent), m_Geometry(), m_pWindow(nullptr),
-    m_bVisible(false) {
-  if (nullptr == pParent) {
-    m_pWindow = stdscr;
+  : m_pParent(pParent), m_Geometry(), m_bVisible(false), m_pLayout(nullptr) {
+  if (nullptr == pParent)
     RegisterTopLevel(this);
-  }
-  else {
-    m_pWindow = pParent->win();
+  else
     pParent->addChild(this);
-  }
 }
 
 Widget::~Widget()
@@ -53,52 +48,49 @@ bool Widget::event(Event* pEvent)
   if (KeyEvent::classof(*pEvent))
     result |= this->keyEvent(dynamic_cast<KeyEvent*>(pEvent));
 
-  // since the parent is visibly behind the children, it paints first.
-  if (PaintEvent::classof(*pEvent))
-    result |= this->paintEvent(dynamic_cast<PaintEvent*>(pEvent));
-
-  if (MoveEvent::classof(*pEvent))
-    result |= this->moveEvent(dynamic_cast<MoveEvent*>(pEvent));
   return result;
 }
 
 void Widget::resize(int pW, int pH)
 {
-  // TODO: emit resizeEvent to parents
   m_Geometry.setWidth(pW);
   m_Geometry.setHeight(pH);
+
+  // update geometry
+  if (hasLayout())
+    layout()->resize(pW, pH);
+
+  // reflesh
+  if (isVisible() && hasLayout())
+    layout()->refresh();
 }
 
 void Widget::move(int pX, int pY)
 {
-  Point new_pos(x() + pX, y() + pY);
-  Point old_pos(x(), y());
+  // update geometry
+  if (hasLayout())
+    layout()->move(pX, pY);
 
-  m_Geometry.setX(new_pos.x());
-  m_Geometry.setY(new_pos.y());
+  m_Geometry.setX(pX);
+  m_Geometry.setY(pY);
 
-  MoveEvent event(new_pos, old_pos);
-  this->doEvent(&event);
+  // reflesh
+  if (isVisible() && hasLayout())
+    layout()->refresh();
 }
 
 void Widget::show()
 {
   setVisible(true);
-  // redraw
+  Children::iterator child, cEnd = m_Children.end();
+  for (child = m_Children.begin(); child != cEnd; ++child)
+    (*child)->show();
+
+  
 }
 
 void Widget::hide()
 {
   setVisible(false);
   // clean up
-}
-
-Layout* Widget::layout()
-{
-  return g_Layout;
-}
-
-void Widget::setLayout(Layout* pLayout)
-{
-  g_Layout = pLayout;
 }

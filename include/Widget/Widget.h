@@ -43,10 +43,6 @@ public:
 
   virtual bool moveEvent(MoveEvent* pEvent) { return true; }
 
-  void resize(int pW, int pH);
-
-  void resize(const Point& pSize) { resize(pSize.x(), pSize.y()); }
-
   int x() const { return m_Geometry.x(); }
 
   int y() const { return m_Geometry.y(); }
@@ -66,37 +62,46 @@ public:
 
   virtual void hide();
 
-  virtual void move(int pX, int pY);
+  void resize(int pW, int pH);
+
+  void resize(const Point& pSize) { resize(pSize.x(), pSize.y()); }
+
+  void move(int pX, int pY);
+
+  void move(const Point& pPosition) { move(pPosition.x(), pPosition.y()); }
 
   Widget* parent() const { return m_pParent; }
 
-  WINDOW* win() { return m_pWindow; }
+  bool isTopLevel() const { return (nullptr == m_pParent); }
 
   void setVisible(bool pEnable = true) { m_bVisible = pEnable; }
 
   bool isVisible() const { return m_bVisible; }
 
-  /// set the top-level layout manager.
-  static void setLayout(Layout* pLayout);
-
-  /// return the top-level layout.
-  static Layout* layout();
-
   const Children& children() const { return m_Children; }
 
   void addChild(Widget* pC) { m_Children.push_back(pC); }
 
+  Layout* layout() const { return m_pLayout; }
+
+  /// @retval true Layout has been installed.
+  bool hasLayout() const { return (nullptr != m_pLayout); }
+
 protected:
   friend class Application;
+  friend class Layout;
 
   virtual bool doEvent(Event* pEvent);
+
+  /// Install layout manager
+  void setLayout(Layout& pLayout) { m_pLayout = &pLayout; }
 
 protected:
   Widget* m_pParent;
   Children m_Children;
   Rect m_Geometry;
-  Layout* m_pLayout;
   bool m_bVisible;
+  Layout* m_pLayout;
 };
 
 /// Register an object to Application

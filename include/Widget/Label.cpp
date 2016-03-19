@@ -54,19 +54,3 @@ void Label::setText(const std::string& pText)
   else
     resize(pText.size(), 1);
 }
-
-bool Label::moveEvent(MoveEvent* pEvent)
-{
-  if (isVisible()) // draw
-    mvwhline(win(), pEvent->oldPos().y(), pEvent->oldPos().x(), ' ', width());
-  return true;
-}
-
-bool Label::paintEvent(PaintEvent* pEvent)
-{
-  if (isVisible()) // draw
-    mvwaddstr(win(), y(), x(), m_Text.c_str());
-  else
-    mvwhline(win(), y(), x(), ' ', width());
-  return true;
-}

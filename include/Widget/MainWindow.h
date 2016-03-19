@@ -28,7 +28,7 @@ public:
 
   Widget* centralWidget() const { return m_pCentralWidget; }
 
-  StatusBar* statusBar() const { return &m_StatusBar; }
+  const StatusBar* statusBar() const { return &m_StatusBar; }
 
 protected:
   Widget* m_pCentralWidget;
