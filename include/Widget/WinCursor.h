@@ -10,10 +10,12 @@
 #define NVS_WIDGET_WINDOW_CURSOR_H
 #include <string>
 #include <Widget/Point.h>
+#include <Widget/Color.h>
 
 namespace nvs {
 
 class Window;
+
 /** \class WinCursor
  *  \brief The WinCursor class represents current cursor of a Window.
  */
@@ -32,20 +34,24 @@ public:
 
   bool move(const Point& pPos) { return this->move(pPos.x(), pPos.y()); }
 
-  bool print(const std::string& pText);
+  WinCursor& operator<<(const std::string& pText);
+
+  WinCursor& operator<<(Color::Type pColor);
+
+  WinCursor& operator<<(Color::Playground pGround);
+
+  WinCursor& operator<<(Color::Attribute pAttr);
 
 protected:
   friend class Cursor;
 
+  Window& win() { return m_Window; }
+
 protected:
   Window& m_Window;
+  Color m_Brush;
+  Color::Playground m_Ground;
 };
-
-inline WinCursor& operator<<(WinCursor& pWinCursor, const std::string& pText)
-{
-  pWinCursor.print(pText);
-  return pWinCursor;
-}
 
 } // namespace of nvs
 

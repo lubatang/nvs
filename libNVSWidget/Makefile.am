@@ -4,6 +4,7 @@ lib_LTLIBRARIES = libNVSWidget.la
 
 libNVSWidget_la_SOURCES = ../include/Widget/Point.cpp \
 	../include/Widget/Application.cpp \
+	../include/Widget/Color.cpp \
 	../include/Widget/Cursor.cpp \
 	../include/Widget/Layout.cpp \
 	../include/Widget/Widget.cpp \
@@ -11,6 +12,7 @@ libNVSWidget_la_SOURCES = ../include/Widget/Point.cpp \
 	../include/Widget/Rect.cpp \
 	../include/Widget/Label.cpp \
 	../include/Widget/MainWindow.cpp \
+	../include/Widget/Palette.cpp \
 	../include/Widget/WinCursor.cpp \
 	../include/Widget/Window.cpp \
 	../include/Support/ManagedStatic.cpp

@@ -6,29 +6,29 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <Widget/Cursor.h>
-#include <curses.h>
+#include <Widget/Color.h>
 
 using namespace nvs;
 
 //===----------------------------------------------------------------------===//
-// nvs::Cursor
+// Color
 //===----------------------------------------------------------------------===//
-Cursor::Cursor(Window& pWindow)
-  : m_Window(pWindow) {
-  int x, y;
-  getyx(m_Window.win(), y, x);
-  m_Position.setX(x);
-  m_Position.setY(y);
+Color::Color()
+  : m_FG(0), m_BG(0), m_Attr(0) {
 }
 
-Cursor::Cursor(WinCursor& pWinCursor)
-  : m_Window(pWinCursor.win()), m_Position(pWinCursor.pos()) {
+Color::Color(short pFG, short pBG, attr_t pAttr)
+  : m_FG(pFG), m_BG(pBG), m_Attr(pAttr) {
 }
 
-bool Cursor::print(const std::string& pText)
+Color& Color::add(attr_t pAttr)
 {
-  bool rst = (OK == mvwaddstr(m_Window.win(), y(), x(), pText.c_str()));
-  m_Position = m_Window.cursor().pos();
-  return rst;
+  m_Attr |= pAttr;
+  return *this;
+}
+
+Color& Color::remove(attr_t  pAttr)
+{
+  m_Attr &= ~pAttr;
+  return *this;
 }

@@ -1,5 +1,6 @@
 nobase_include_HEADERS = Widget/Point.h \
 	Widget/Application.h \
+	Widget/Color.h \
 	Widget/Cursor.h \
 	Widget/Layout.h \
 	Widget/Widget.h \
@@ -7,6 +8,7 @@ nobase_include_HEADERS = Widget/Point.h \
 	Widget/Rect.h \
 	Widget/Label.h \
 	Widget/MainWindow.h \
+	Widget/Palette.h \
 	Widget/WinCursor.h \
 	Widget/Window.h \
 	Support/ManagedStatic.h

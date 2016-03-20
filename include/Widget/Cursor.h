@@ -11,7 +11,6 @@
 #include <string>
 #include <Widget/Point.h>
 #include <Widget/Window.h>
-#include <Widget/WinCursor.h>
 
 namespace nvs {
 

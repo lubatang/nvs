@@ -13,8 +13,6 @@
 #include <Widget/WinCursor.h>
 #include <curses.h>
 
-extern WINDOW* stdscr;
-
 namespace nvs {
 
 /** \class Window

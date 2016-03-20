@@ -9,6 +9,7 @@
 #include <Widget/Application.h>
 #include <Widget/Widget.h>
 #include <Widget/Event.h>
+#include <Widget/Palette.h>
 #include <Support/ManagedStatic.h>
 #include <assert.h>
 #include <curses.h>
@@ -43,6 +44,7 @@ Application::Application()
   initscr();
   cbreak(); //< Line buffering disabled, Pass on everty thing to me
   keypad(stdscr, true); //< I need that nifty Fn
+  Palette::init();
 }
 
 Application::~Application()
@@ -60,7 +62,7 @@ Application* Application::instance()
 // The main event loop
 void Application::exec()
 {
-  clear(); // curses call to clear screen, send cursor to position (0,0)
+//  clear(); // curses call to clear screen, send cursor to position (0,0)
   refresh();
 
   do {
