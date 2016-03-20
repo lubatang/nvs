@@ -18,7 +18,7 @@ class Palette
 public:
   static bool hasColors();
 
-  static bool init();
+  static bool initialize();
 
   static short id(short pFore, short pBack);
 

@@ -44,7 +44,7 @@ Application::Application()
   initscr();
   cbreak(); //< Line buffering disabled, Pass on everty thing to me
   keypad(stdscr, true); //< I need that nifty Fn
-  Palette::init();
+  Palette::initialize();
 }
 
 Application::~Application()

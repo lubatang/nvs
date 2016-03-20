@@ -19,7 +19,7 @@ bool Palette::hasColors()
   return has_colors();
 }
 
-bool Palette::init()
+bool Palette::initialize()
 {
   if (hasColors()) {
     start_color();
