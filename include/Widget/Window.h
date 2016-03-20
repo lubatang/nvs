@@ -10,6 +10,7 @@
 #define NVS_WIDGET_WINDOW_H
 #include <Widget/Rect.h>
 #include <Widget/Point.h>
+#include <Widget/WinCursor.h>
 #include <curses.h>
 
 extern WINDOW* stdscr;
@@ -52,10 +53,13 @@ public:
 
   Rect geometry() const;
 
+  /// return current cursor.
+  WinCursor cursor();
+
   bool refresh();
 
 protected:
-  friend class Cursor;
+  friend class WinCursor;
 
   WINDOW* win() { return m_pWindow; }
 

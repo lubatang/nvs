@@ -6,16 +6,21 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#ifndef NVS_WIDGET_CURSOR_H
-#define NVS_WIDGET_CURSOR_H
-#include <Widget/Window.h>
+#ifndef NVS_WIDGET_WINDOW_CURSOR_H
+#define NVS_WIDGET_WINDOW_CURSOR_H
+#include <string>
+#include <Widget/Point.h>
 
 namespace nvs {
 
-class Cursor
+class Window;
+/** \class WinCursor
+ *  \brief The WinCursor class represents current cursor of a Window.
+ */
+class WinCursor
 {
 public:
-  Cursor(Window& pWindow);
+  WinCursor(Window& pWindow);
 
   int x() const;
 
@@ -27,9 +32,17 @@ public:
 
   bool move(const Point& pPos) { return this->move(pPos.x(), pPos.y()); }
 
+  bool print(const std::string& pText);
+
 protected:
   Window& m_Window;
 };
+
+inline WinCursor& operator<<(WinCursor& pWinCursor, const std::string& pText)
+{
+  pWinCursor.print(pText);
+  return pWinCursor;
+}
 
 } // namespace of nvs
 

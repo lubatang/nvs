@@ -6,35 +6,42 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <Widget/Cursor.h>
+#include <Widget/WinCursor.h>
+#include <Widget/Window.h>
+#include <curses.h>
 
 using namespace nvs;
 
 //===----------------------------------------------------------------------===//
-// Cursor
+// WinCursor
 //===----------------------------------------------------------------------===//
-Cursor::Cursor(Window& pWindow)
+WinCursor::WinCursor(Window& pWindow)
   : m_Window(pWindow) {
 }
 
-int Cursor::x() const
+int WinCursor::x() const
 {
   return getcurx(m_Window.win());
 }
 
-int Cursor::y() const
+int WinCursor::y() const
 {
   return getcury(m_Window.win());
 }
 
-Point Cursor::pos() const
+Point WinCursor::pos() const
 {
   int x, y;
   getyx(m_Window.win(), y, x);
   return Point(x, y);
 }
 
-bool Cursor::move(int pX, int pY)
+bool WinCursor::move(int pX, int pY)
 {
   return (OK == ::wmove(m_Window.win(), pY, pX));
+}
+
+bool WinCursor::print(const std::string& pText)
+{
+  return (OK == waddstr(m_Window.win(), pText.c_str()));
 }

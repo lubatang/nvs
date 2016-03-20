@@ -84,3 +84,8 @@ bool Window::refresh()
 {
   return (OK == wnoutrefresh(m_pWindow));
 }
+
+WinCursor Window::cursor()
+{
+  return WinCursor(*this);
+}
