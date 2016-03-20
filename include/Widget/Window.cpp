@@ -79,3 +79,8 @@ Rect Window::geometry() const
   getmaxyx(m_pWindow, h, w);
   return Rect(x, y, w, h);
 }
+
+bool Window::refresh()
+{
+  return (OK == wnoutrefresh(m_pWindow));
+}

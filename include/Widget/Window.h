@@ -32,11 +32,11 @@ public:
 
   bool move(int pX, int pY);
 
-  bool move(const Point& pPos) { return move(pPos.x(), pPos.y()); }
+  bool move(const Point& pPos) { return this->move(pPos.x(), pPos.y()); }
 
   bool resize(int pWidth, int pHeight);
 
-  bool resize(const Point& pSize) { return resize(pSize.x(), pSize.y()); }
+  bool resize(const Point& pSize) { return this->resize(pSize.x(), pSize.y()); }
 
   int x() const;
 
@@ -51,6 +51,15 @@ public:
   Point size() const;
 
   Rect geometry() const;
+
+  bool refresh();
+
+protected:
+  friend class Cursor;
+
+  WINDOW* win() { return m_pWindow; }
+
+  const WINDOW* win() const { return m_pWindow; }
 
 protected:
   WINDOW* m_pWindow;

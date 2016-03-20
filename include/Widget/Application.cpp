@@ -65,7 +65,7 @@ void Application::exec()
 
   do {
     // paint event
-    refresh();
+    doupdate();
 
     // key event
     int key = getch();
