@@ -10,6 +10,7 @@ libNVSWidget_la_SOURCES = ../include/Widget/Point.cpp \
 	../include/Widget/Rect.cpp \
 	../include/Widget/Label.cpp \
 	../include/Widget/MainWindow.cpp \
+	../include/Widget/Window.cpp \
 	../include/Support/ManagedStatic.cpp
 
 libNVSWidget_la_LIBADD = -lcurses

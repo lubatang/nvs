@@ -14,3 +14,4 @@ The Widget system bases on tree fundations:
 
   2. Layout tree bookkeeps WINDOW strcutres
     When you create a Layout object, the system creates a WINDOW for you.
+    Layout also re-creates Widget geometry.

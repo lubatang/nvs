@@ -85,8 +85,6 @@ void Widget::show()
   Children::iterator child, cEnd = m_Children.end();
   for (child = m_Children.begin(); child != cEnd; ++child)
     (*child)->show();
-
-  
 }
 
 void Widget::hide()
