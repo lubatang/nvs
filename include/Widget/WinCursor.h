@@ -35,6 +35,9 @@ public:
   bool print(const std::string& pText);
 
 protected:
+  friend class Cursor;
+
+protected:
   Window& m_Window;
 };
 

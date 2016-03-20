@@ -60,6 +60,7 @@ public:
 
 protected:
   friend class WinCursor;
+  friend class Cursor;
 
   WINDOW* win() { return m_pWindow; }
 

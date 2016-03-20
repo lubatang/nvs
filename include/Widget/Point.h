@@ -22,6 +22,10 @@ public:
 
   int y() const { return m_Y; }
 
+  void setX(int pX) { m_X = pX; }
+
+  void setY(int pY) { m_Y = pY; }
+
 private:
   int m_X;
   int m_Y;
