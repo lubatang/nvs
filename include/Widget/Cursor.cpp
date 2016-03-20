@@ -28,5 +28,7 @@ Cursor::Cursor(WinCursor& pWinCursor)
 
 bool Cursor::print(const std::string& pText)
 {
-  return (OK == mvwaddstr(m_Window.win(), y(), x(), pText.c_str()));
+  bool rst = (OK == mvwaddstr(m_Window.win(), y(), x(), pText.c_str()));
+  m_Position = m_Window.cursor().pos();
+  return rst;
 }
