@@ -13,7 +13,6 @@ libNVSWidget_la_SOURCES = ../include/Widget/Point.cpp \
 	../include/Widget/Label.cpp \
 	../include/Widget/MainWindow.cpp \
 	../include/Widget/Palette.cpp \
-	../include/Widget/WinCursor.cpp \
 	../include/Widget/Window.cpp \
 	../include/Support/ManagedStatic.cpp
 

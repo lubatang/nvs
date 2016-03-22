@@ -63,7 +63,7 @@ Application* Application::instance()
 // The main event loop
 void Application::exec()
 {
-//  clear(); // curses call to clear screen, send cursor to position (0,0)
+  clear(); // curses call to clear screen, send cursor to position (0,0)
   refresh();
 
   do {

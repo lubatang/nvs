@@ -23,7 +23,6 @@ bool Palette::initialize()
 {
   if (hasColors()) {
     start_color();
-    use_default_colors();
 
     short fg, bg;
     for (fg = 0; fg < Color::TotalColors; ++fg)

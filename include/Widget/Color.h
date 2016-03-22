@@ -40,7 +40,7 @@ public:
 
   enum Playground {
     Foreground,
-    Background,
+    Background
   };
 
   static const Playground fg = Foreground;
