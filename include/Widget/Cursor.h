@@ -6,27 +6,27 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#ifndef NVS_WIDGET_CURSOR_H
-#define NVS_WIDGET_CURSOR_H
+#ifndef NVS_WIDGET_WINDOW_CURSOR_H
+#define NVS_WIDGET_WINDOW_CURSOR_H
 #include <string>
 #include <Widget/Point.h>
-#include <Widget/Window.h>
+#include <Widget/Color.h>
 
 namespace nvs {
 
+class Window;
+
 /** \class Cursor
- *  \brief The Cursor class represents a cursor of a Window.
- *
- *  Different with WinCursor, moving a Cursor object doesn't affect 
- *  Window's current cursor immediately. Current cursor doesn't move until
- *  Cursor::print.
+ *  \brief The Cursor class represents current cursor of a Window.
  */
 class Cursor
 {
 public:
   Cursor(Window& pWindow);
 
-  Cursor(WinCursor& pWinCursor);
+  Cursor(Window& pWindow, const Point& pPosition);
+
+  Cursor(Window& pWindow, int pX, int pY);
 
   int x() const { return m_Position.x(); }
 
@@ -34,22 +34,31 @@ public:
 
   Point pos() const { return m_Position; }
 
-  void move(int pX, int pY) { m_Position = Point(pX, pY); }
+  bool move(int pX, int pY);
 
-  void move(const Point& pPos) { m_Position = pPos; }
+  bool move(const Point& pPos) { return this->move(pPos.x(), pPos.y()); }
 
-  bool print(const std::string& pText);
+  bool reset();
+
+  Cursor& operator<<(const std::string& pText);
+
+  Cursor& operator<<(Color::Type pColor);
+
+  Cursor& operator<<(Color::Playground pGround);
+
+  Cursor& operator<<(Color::Attribute pAttr);
+
+protected:
+  friend class Cursor;
+
+  Window& win() { return m_Window; }
 
 protected:
   Window& m_Window;
   Point m_Position;
+  Color m_Brush;
+  Color::Playground m_Ground;
 };
-
-inline Cursor& operator<<(Cursor& pCursor, const std::string& pText)
-{
-  pCursor.print(pText);
-  return pCursor;
-}
 
 } // namespace of nvs
 

@@ -24,7 +24,8 @@ public:
     Magenta = COLOR_MAGENTA,
     Cyan    = COLOR_CYAN,
     Black   = COLOR_BLACK,
-    TotalColors = 8
+    TotalColors = 8,
+    Reset   = -1
   };
 
   enum Attribute {
@@ -35,12 +36,11 @@ public:
     Blink     = A_BLINK,      ///< Blinking
     Dim       = A_DIM,        ///< Half bright
     Bold      = A_BOLD,       ///< Extra bright or bold
-    Reset                     ///< Reset color
   };
 
   enum Playground {
     Foreground,
-    Background
+    Background,
   };
 
   static const Playground fg = Foreground;

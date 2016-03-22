@@ -8,7 +8,6 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_WIDGET_PALETTE_H
 #define NVS_WIDGET_PALETTE_H
-#include <Widget/WinCursor.h>
 #include <Widget/Color.h>
 
 namespace nvs {

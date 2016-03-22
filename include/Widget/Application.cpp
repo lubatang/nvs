@@ -43,6 +43,7 @@ Application::Application()
   g_App = this;
   initscr();
   cbreak(); //< Line buffering disabled, Pass on everty thing to me
+  noecho();
   keypad(stdscr, true); //< I need that nifty Fn
   Palette::initialize();
 }

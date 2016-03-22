@@ -10,7 +10,7 @@
 #define NVS_WIDGET_WINDOW_H
 #include <Widget/Rect.h>
 #include <Widget/Point.h>
-#include <Widget/WinCursor.h>
+#include <Widget/Cursor.h>
 #include <curses.h>
 
 namespace nvs {
@@ -51,13 +51,9 @@ public:
 
   Rect geometry() const;
 
-  /// return current cursor.
-  WinCursor cursor();
-
   bool refresh();
 
 protected:
-  friend class WinCursor;
   friend class Cursor;
 
   WINDOW* win() { return m_pWindow; }
