@@ -41,11 +41,16 @@ AC_PROG_YACC
 AM_CONDITIONAL(GCC, test "$GCC" = yes)   # let the Makefile know if we're gcc
 LT_INIT
 
+CHECK_APR
+CHECK_APU
+CHECK_SVN
+
 ####################
 # OUTPUT
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([include/Makefile])
 AC_CONFIG_FILES([libNVSWidget/Makefile])
+AC_CONFIG_FILES([libNVSCpp/Makefile])
 
 AC_OUTPUT
