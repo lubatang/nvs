@@ -6,8 +6,9 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#ifndef NVS_NVSCPP_APR_H
-#define NVS_NVSCPP_APR_H
+#ifndef NVS_SUBVERSION_APR_H
+#define NVS_SUBVERSION_APR_H
+#include <Support/Uncopyable.h>
 #include <apr_general.h>
 
 namespace nvs {
@@ -15,7 +16,7 @@ namespace nvs {
 /** \class Apr
  * Apache Runtime (APR) support.
  */
-class Apr
+class Apr : private Uncopyable
 {
 public:
   /// Default constructor. Initializes APR
@@ -23,11 +24,6 @@ public:
 
   /// Destructor. Terminates APR
   ~Apr() { apr_terminate(); }
-
-private:
-  Apr(const Apr &) = delete;
-
-  Apr& operator=(const Apr &) = delete;
 };
 
 } // namespace of nvs
