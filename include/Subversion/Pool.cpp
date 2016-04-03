@@ -6,7 +6,7 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#include <NVSCpp/Pool.h>
+#include <Subversion/Pool.h>
 
 using namespace nvs;
 

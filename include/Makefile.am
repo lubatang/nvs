@@ -13,5 +13,5 @@ nobase_include_HEADERS = Widget/Point.h \
 	Widget/Window.h \
 	Support/ManagedStatic.h \
 	Support/Uncopyable.h \
-	NVSCpp/Apr.h \
-	NVSCpp/Pool.h
+	Subversion/Apr.h \
+	Subversion/Pool.h
