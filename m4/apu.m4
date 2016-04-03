@@ -36,4 +36,7 @@ AC_DEFUN([CHECK_APU],
 
   APU_CPPFLAGS=`$APU_CONFIG --includes`
   APU_LIBS=`$APU_CONFIG --link-ld --libs`
+
+  AC_SUBST(APU_CPPFLAGS)
+  AC_SUBST(APU_LIBS)
 ])

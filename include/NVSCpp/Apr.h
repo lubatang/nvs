@@ -6,8 +6,9 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-#ifndef NVS_SVNCPP_APR_H
-#define NVS_SVNCPP_APR_H
+#ifndef NVS_NVSCPP_APR_H
+#define NVS_NVSCPP_APR_H
+#include <apr_general.h>
 
 namespace nvs {
 
@@ -18,10 +19,10 @@ class Apr
 {
 public:
   /// Default constructor. Initializes APR
-  Apr();
+  Apr() {  apr_initialize(); }
 
   /// Destructor. Terminates APR
-  ~Apr();
+  ~Apr() { apr_terminate(); }
 
 private:
   Apr(const Apr &) = delete;

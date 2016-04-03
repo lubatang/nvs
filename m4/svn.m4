@@ -57,4 +57,7 @@ AC_DEFUN([CHECK_SVN],
     AC_MSG_ERROR([Subversion libraries are required. Try --with-svn-lib.])
   fi
   SVN_LIBS="-L$SVN_LIB -lsvn_client-1 -lsvn_wc-1 -lsvn_ra-1 -lsvn_delta-1 -lsvn_subr-1"
+
+  AC_SUBST(SVN_CPPFLAGS)
+  AC_SUBST(SVN_LIBS)
 ])

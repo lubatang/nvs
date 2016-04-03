@@ -2,7 +2,7 @@ ACLOCAL_AMFLAGS=-I m4
 
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = libNVSWidget include src
+SUBDIRS = libNVSWidget libNVSCpp include src
 
 EXTRA_DIST = ./autogen.sh
 

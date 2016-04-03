@@ -42,7 +42,6 @@ AM_CONDITIONAL(GCC, test "$GCC" = yes)   # let the Makefile know if we're gcc
 LT_INIT
 
 CHECK_APR
-CHECK_APU
 CHECK_SVN
 
 ####################

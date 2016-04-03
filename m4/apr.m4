@@ -36,4 +36,7 @@ AC_DEFUN([CHECK_APR],
 
   APR_CPPFLAGS="`$APR_CONFIG --cppflags` `$APR_CONFIG --includes`"
   APR_LIBS=`$APR_CONFIG --link-ld --libs`
+
+  AC_SUBST(APR_CPPFLAGS)
+  AC_SUBST(APR_LIBS)
 ])
