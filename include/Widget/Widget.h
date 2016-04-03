@@ -22,6 +22,9 @@ namespace nvs {
  *
  *  Widgets with the same ancestor have handles the same window. Child widget
  *  is visibly above parent widget, and turn on and off at the same time.
+ *
+ *  A widget that is not embedded in a parent widget is called a window. In NVS,
+ *  MainWindow and various subclasses of Dialog are the most common window type.
  */
 class Widget
 {
