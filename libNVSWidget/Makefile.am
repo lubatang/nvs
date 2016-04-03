@@ -13,7 +13,8 @@ libNVSWidget_la_SOURCES = ../include/Widget/Point.cpp \
 	../include/Widget/Label.cpp \
 	../include/Widget/MainWindow.cpp \
 	../include/Widget/Palette.cpp \
+	../include/Widget/Panel.cpp \
 	../include/Widget/Window.cpp \
 	../include/Support/ManagedStatic.cpp
 
-libNVSWidget_la_LIBADD = -lcurses
+libNVSWidget_la_LIBADD = -lcurses -lpanel

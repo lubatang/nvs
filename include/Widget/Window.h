@@ -55,6 +55,7 @@ public:
 
 protected:
   friend class Cursor;
+  friend class Panel;
 
   WINDOW* win() { return m_pWindow; }
 
