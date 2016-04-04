@@ -13,5 +13,24 @@ nobase_include_HEADERS = Widget/Point.h \
 	Widget/Window.h \
 	Support/ManagedStatic.h \
 	Support/Uncopyable.h \
+	Subversion/AnnotateLine.h \
 	Subversion/Apr.h \
-	Subversion/Pool.h
+	Subversion/Context.h \
+	Subversion/ContextData.h \
+	Subversion/ContextListener.h \
+	Subversion/Client.h \
+	Subversion/Datetime.h \
+	Subversion/Dirent.h \
+	Subversion/Entry.h \
+	Subversion/Exception.h \
+	Subversion/Info.h \
+	Subversion/LogEntry.h \
+	Subversion/Path.h \
+	Subversion/Pool.h \
+	Subversion/Property.h \
+	Subversion/Revision.h \
+	Subversion/Status.h \
+	Subversion/StatusSelection.h \
+	Subversion/Targets.h \
+	Subversion/Url.h \
+	Subversion/Wc.h

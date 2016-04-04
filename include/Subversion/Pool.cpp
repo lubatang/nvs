@@ -6,6 +6,14 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
+//===----------------------------------------------------------------------===//
+//
+//                            The NVS Project
+//
+// This file is distributed under GNU GENERAL PUBLIC LICENSE, Version 3.
+// See LICENSE for details.
+//
+//===----------------------------------------------------------------------===//
 #include <Subversion/Pool.h>
 
 using namespace nvs;

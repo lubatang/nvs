@@ -29,13 +29,13 @@ public:
   /// release pool and create a new one
   void renew();
 
+  /// @return apr handle to the pool
+  apr_pool_t* handler() const { return m_pPool; }
+
 private:
   void doInit();
 
   void doClean();
-
-  /// @return apr handle to the pool
-  apr_pool_t* handler() const { return m_pPool; }
 
 private:
   Pool* m_pParent;
