@@ -12,6 +12,7 @@
 #include <Subversion/Info.h>
 #include <Subversion/Pool.h>
 #include <Subversion/Status.h>
+#include <Subversion/Subversion.h>
 #include <Subversion/Targets.h>
 #include <Subversion/URL.h>
 #include <svn_client.h>
@@ -32,8 +33,7 @@ struct StatusBaton
     StatusEntries & entries;
 
     StatusBaton(const StatusFilter & filter_, StatusEntries & entries_)
-      : filter(filter_), entries(entries_)
-    {
+      : filter(filter_), entries(entries_) {
     }
 };
 
@@ -42,26 +42,22 @@ struct StatusBaton
 //===----------------------------------------------------------------------===//
 // Helper Functions
 //===----------------------------------------------------------------------===//
-static svn_error_t *
-logReceiver(void *baton,
-    apr_hash_t * changedPaths,
-    svn_revnum_t rev,
-    const char *author,
-    const char *date,
-    const char *msg,
-    apr_pool_t * pool)
+static svn_error_t* logReceiver(void *baton,
+                                apr_hash_t * changedPaths,
+                                RevNum rev,
+                                const char *author,
+                                const char *date,
+                                const char *msg,
+                                apr_pool_t * pool)
 {
   LogEntries * entries = (LogEntries *) baton;
   entries->insert(entries->begin(), LogEntry(rev, author, date, msg));
 
-  if (changedPaths != NULL)
-  {
+  if (changedPaths != NULL) {
     LogEntry &entry = entries->front();
 
-    for (apr_hash_index_t *hi = apr_hash_first(pool, changedPaths);
-        hi != NULL;
-        hi = apr_hash_next(hi))
-    {
+    apr_hash_index_t *hi = apr_hash_first(pool, changedPaths);
+    while (nullptr != hi) {
       char *path;
       void *val;
       apr_hash_this(hi, (const void **)&path, NULL, &val);
@@ -73,22 +69,22 @@ logReceiver(void *baton,
             log_item->action,
             log_item->copyfrom_path,
             log_item->copyfrom_rev));
+
+      hi = apr_hash_next(hi);
     }
   }
 
   return NULL;
 }
 
-static void
-statusEntriesFunc(void *baton, const char *path, svn_wc_status2_t *status)
+static void statusEntriesFunc(void *baton, const char *path, svn_wc_status2_t *status)
 {
   StatusEntries * entries = static_cast<StatusEntries *>(baton);
 
   entries->push_back(Status(path, status));
 }
 
-static StatusEntries
-localStatus(const char * path,
+static StatusEntries localStatus(const char * path,
     const bool descend,
     const bool get_all,
     const bool update,
@@ -122,8 +118,7 @@ localStatus(const char * path,
   return entries;
 }
 
-  static Status
-dirEntryToStatus(const char * path, const DirEntry & dirEntry)
+static Status dirEntryToStatus(const char * path, const DirEntry & dirEntry)
 {
   Pool pool;
 
@@ -161,8 +156,7 @@ dirEntryToStatus(const char * path, const DirEntry & dirEntry)
 }
 
 
-static svn_revnum_t
-remoteStatus(Client * client,
+static RevNum remoteStatus(Client * client,
     const char * path,
     const bool descend,
     StatusEntries & entries,
@@ -316,26 +310,24 @@ Client::status(const char * path,
 
 const LogEntries*
 Client::log(const char* path,
-            const Revision & revisionStart, const Revision& revisionEnd,
+            const Revision& revisionStart, const Revision& revisionEnd,
             bool discoverChangedPaths, bool strictNodeHistory) throw(ClientException)
 {
   Pool pool;
   Targets target(path);
   LogEntries * entries = new LogEntries();
-  svn_error_t *error;
   int limit = 0;
 
-  error = svn_client_log2(
-      target.array(pool),
-      revisionStart.revision(),
-      revisionEnd.revision(),
-      limit,
-      discoverChangedPaths ? 1 : 0,
-      strictNodeHistory ? 1 : 0,
-      logReceiver,
-      entries,
-      m_Context,
-      pool.handler());
+  svn_error_t* error = svn_client_log2(target.array(pool),
+                                       revisionStart.revision(),
+                                       revisionEnd.revision(),
+                                       limit,
+                                       discoverChangedPaths ? 1 : 0,
+                                       strictNodeHistory ? 1 : 0,
+                                       logReceiver,
+                                       entries,
+                                       m_Context,
+                                       pool.handler());
 
   if (error != NULL) {
     delete entries;
@@ -345,11 +337,10 @@ Client::log(const char* path,
   return entries;
 }
 
-InfoVector
-Client::info(const Path & pathOrUrl,
-    bool recurse,
-    const Revision & revision,
-    const Revision & pegRevision) throw(ClientException)
+InfoVector Client::info(const Path & pathOrUrl,
+                        bool recurse,
+                        const Revision & revision,
+                        const Revision & pegRevision) throw(ClientException)
 {
   Pool pool;
   InfoVector infoVector;

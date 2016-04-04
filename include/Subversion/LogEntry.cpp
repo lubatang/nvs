@@ -18,7 +18,7 @@ using namespace nvs;
 //===----------------------------------------------------------------------===//
 LogChangePathEntry::LogChangePathEntry(const char* pPath, char pAction,
                                        const char *pCopyFromPath,
-                                       const svn_revnum_t pCopyFromRevision)
+                                       const RevNum& pCopyFromRevision)
   : path(pPath), action(pAction),
   copyFromPath(pCopyFromPath != NULL ? pCopyFromPath : ""),
   copyFromRevision(pCopyFromRevision) {
@@ -31,7 +31,7 @@ LogEntry::LogEntry()
 {
 }
 
-LogEntry::LogEntry(const svn_revnum_t pRev,
+LogEntry::LogEntry(const RevNum& pRev,
                    const char * pAuthor, const char * pDate, const char * pMesg)
 {
   date = 0;

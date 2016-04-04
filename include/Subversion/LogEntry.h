@@ -17,10 +17,10 @@ namespace nvs {
 struct LogChangePathEntry
 {
 public:
-  LogChangePathEntry(const char *path_,
-                     char action_,
-                     const char *copyFromPath_,
-                     const RevNum copyFromRevision_);
+  LogChangePathEntry(const char* pPath,
+                     char pAction,
+                     const char *pCopyFromPath,
+                     const RevNum& pCopyFromRevision);
 
 public:
   std::string path;
@@ -29,16 +29,15 @@ public:
   RevNum copyFromRevision;
 };
 
-
 struct LogEntry
 {
 public:
   LogEntry();
 
-  LogEntry(const RevNum revision,
-           const char * author,
-           const char * date,
-           const char * message);
+  LogEntry(const RevNum& revision,
+           const char* author,
+           const char* date,
+           const char* message);
 
 public:
   RevNum revision;
