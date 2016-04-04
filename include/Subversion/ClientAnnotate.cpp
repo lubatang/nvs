@@ -12,7 +12,7 @@
 using namespace nvs;
 
 //===----------------------------------------------------------------------===//
-// Client
+// Helper
 //===----------------------------------------------------------------------===//
 static svn_error_t* annotateReceiver(void *baton,
     apr_int64_t line_no,
@@ -32,6 +32,9 @@ static svn_error_t* annotateReceiver(void *baton,
   return NULL;
 }
 
+//===----------------------------------------------------------------------===//
+// Client
+//===----------------------------------------------------------------------===//
 AnnotatedFile*
 Client::annotate(const Path& path,
                  const Revision& revisionStart,
@@ -46,7 +49,7 @@ Client::annotate(const Path& path,
       revisionEnd.revision(),
       annotateReceiver,
       entries,
-      *this->m_context, // client ctx
+      *this->m_pContext, // client ctx
       pool.handler());
 
   if (error != NULL) {

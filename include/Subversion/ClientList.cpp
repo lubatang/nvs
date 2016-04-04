@@ -26,7 +26,7 @@ DirEntries Client::list(const char* pPathOrURL,
 
   apr_hash_t* hash;
   svn_error_t* error = svn_client_ls(&hash, pPathOrURL, pRevision, pRecurse,
-                                     *m_context, pool.handler());
+                                     *m_pContext, pool.handler());
 
   if (nullptr != error)
     throw ClientException(error);

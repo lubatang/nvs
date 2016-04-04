@@ -104,7 +104,7 @@ Client::diff(const Path & tmpPath, const Path & path,
       path.c_str(), revision2.revision(),
       recurse, ignoreAncestry, noDiffDeleted,
       outfile, errfile,
-      *m_context,
+      *m_pContext,
       pool.handler());
 
   if (error != NULL)
@@ -189,7 +189,7 @@ throw(ClientException)
       path2.c_str(), revision2.revision(),
       recurse, ignoreAncestry, noDiffDeleted,
       outfile, errfile,
-      *m_context,
+      *m_pContext,
       pool.handler());
 
   if (error != NULL)
@@ -274,7 +274,7 @@ Client::diff(const Path & tmpPath, const Path & path,
       revision1.revision(), revision2.revision(),
       recurse, ignoreAncestry, noDiffDeleted,
       outfile, errfile,
-      *m_context,
+      *m_pContext,
       pool.handler());
 
   if (error != NULL)
@@ -285,15 +285,13 @@ Client::diff(const Path & tmpPath, const Path & path,
 
   // then we reopen outfile for reading
   status = apr_file_close(outfile);
-  if (status)
-  {
+  if (status) {
     diffCleanup(outfile, outfileName, errfile, errfileName, pool.handler());
     fail(pool.handler(), status, "failed to close '%s'", outfileName);
   }
 
   status = apr_file_open(&outfile, outfileName, APR_READ, APR_OS_DEFAULT, pool.handler());
-  if (status)
-  {
+  if (status) {
     diffCleanup(outfile, outfileName, errfile, errfileName, pool.handler());
     fail(pool.handler(), status, "failed to open '%s'", outfileName);
   }

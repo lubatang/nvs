@@ -11,6 +11,7 @@
 #include <Widget/Window.h>
 #include <Widget/Cursor.h>
 #include <NVSView.h>
+#include <Subversion/Client.h>
 
 using namespace nvs;
 

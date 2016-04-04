@@ -2,8 +2,7 @@ AM_CPPFLAGS = -I${abs_top_srcdir}/include @APR_CPPFLAGS@ @SVN_CPPFLAGS@ -std=c++
 
 lib_LTLIBRARIES = libNVSCpp.la
 
-libNVSCpp_la_SOURCES = ../include/Subversion/Client.cpp \
-	../include/Subversion/ClientAnnotate.cpp \
+libNVSCpp_la_SOURCES = ../include/Subversion/ClientAnnotate.cpp \
 	../include/Subversion/ClientCat.cpp \
 	../include/Subversion/ClientDiff.cpp \
 	../include/Subversion/ClientList.cpp \

@@ -36,7 +36,7 @@ svn_revnum_t Client::checkout(const char * url,
         revision.revision(),  // revision
         recurse,
         ignore_externals,
-        *m_context,
+        *m_pContext,
         apr_pool);
 
   if (error != NULL)
@@ -54,7 +54,7 @@ void Client::remove(const Path& pPath, bool pForce) throw(ClientException)
   svn_error_t * error = svn_client_delete(&commit_info,
         const_cast<apr_array_header_t*>(targets.array(pool)),
         pForce,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -70,7 +70,7 @@ void Client::remove(const Targets & targets, bool force) throw(ClientException)
     svn_client_delete(&commit_info,
         const_cast<apr_array_header_t*>(targets.array(pool)),
         force,
-        *m_context,
+        *m_pContext,
         pool.handler());
   if (error != NULL)
     throw ClientException(error);
@@ -84,7 +84,7 @@ void Client::lock(const Targets & targets, bool force, const char * comment) thr
     svn_client_lock(const_cast<apr_array_header_t*>(targets.array(pool)),
         comment,
         force,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -98,7 +98,7 @@ void Client::unlock(const Targets & targets, bool force) throw(ClientException)
   svn_error_t * error =
     svn_client_unlock(const_cast<apr_array_header_t*>(targets.array(pool)),
         force,
-        *m_context,
+        *m_pContext,
         pool.handler());
   if (error != NULL)
     throw ClientException(error);
@@ -111,7 +111,7 @@ void Client::revert(const Targets & targets, bool recurse) throw(ClientException
   svn_error_t * error =
     svn_client_revert((targets.array(pool)),
         recurse,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -129,7 +129,7 @@ void Client::add(const Path & path, bool recurse) throw(ClientException)
   svn_error_t * error =
     svn_client_add(path.c_str(),
         recurse,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -150,7 +150,7 @@ std::vector<svn_revnum_t> Client::update(const Targets & targets,
         revision.revision(),
         recurse,
         ignore_externals,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -181,7 +181,7 @@ svn_revnum_t Client::commit(const Targets& targets,
 {
   Pool pool;
 
-  m_context->setLogMessage(message);
+  m_pContext->setLogMessage(message);
 
   svn_client_commit_info_t *commit_info = NULL;
 
@@ -189,7 +189,7 @@ svn_revnum_t Client::commit(const Targets& targets,
                                           targets.array(pool),
                                           recurse,
                                           keep_locks,
-                                          *m_context,
+                                          *m_pContext,
                                           pool.handler());
   if (error != NULL)
     throw ClientException(error);
@@ -211,7 +211,7 @@ void Client::copy(const Path & srcPath,
         srcPath.c_str(),
         srcRevision.revision(),
         destPath.c_str(),
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -231,7 +231,7 @@ void Client::move(const Path & srcPath,
         srcPath.c_str(),
         destPath.c_str(),
         force,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -248,7 +248,7 @@ void Client::mkdir(const Path & path) throw(ClientException)
     svn_client_mkdir(&commit_info,
         const_cast<apr_array_header_t*>
         (targets.array(pool)),
-        *m_context, pool.handler());
+        *m_pContext, pool.handler());
 
   if (error != NULL)
     throw ClientException(error);
@@ -263,7 +263,7 @@ void Client::mkdir(const Targets & targets) throw(ClientException)
     svn_client_mkdir(&commit_info,
         const_cast<apr_array_header_t*>
         (targets.array(pool)),
-        *m_context, pool.handler());
+        *m_pContext, pool.handler());
 
   if (error != NULL)
     throw ClientException(error);
@@ -275,7 +275,7 @@ void Client::cleanup(const Path & path) throw(ClientException)
   apr_pool_t* apr_pool = subPool.handler();
 
   svn_error_t * error =
-    svn_client_cleanup(path.c_str(), *m_context, apr_pool);
+    svn_client_cleanup(path.c_str(), *m_pContext, apr_pool);
 
   if (error != NULL)
     throw ClientException(error);
@@ -284,7 +284,7 @@ void Client::cleanup(const Path & path) throw(ClientException)
 void Client::resolved(const Path & pPath, bool pRecurse) throw(ClientException)
 {
   Pool pool;
-  svn_error_t* error = svn_client_resolved(pPath.c_str(), pRecurse, *m_context, pool.handler());
+  svn_error_t* error = svn_client_resolved(pPath.c_str(), pRecurse, *m_pContext, pool.handler());
 
   if (error != NULL)
     throw ClientException(error);
@@ -312,7 +312,7 @@ void Client::doExport(const Path & from_path,
         ignore_externals,
         recurse,
         native_eol,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -332,7 +332,7 @@ svn_revnum_t Client::doSwitch(const Path & path,
         url,
         revision.revision(),
         recurse,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -348,14 +348,14 @@ void Client::import(const Path & path,
   Pool pool;
   svn_client_commit_info_t *commit_info = NULL;
 
-  m_context->setLogMessage(message);
+  m_pContext->setLogMessage(message);
 
   svn_error_t * error =
     svn_client_import(&commit_info,
         path.c_str(),
         url,
         !recurse,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -389,7 +389,7 @@ Client::merge(const Path& path1, const Revision& revision1,
         !notice_ancestry,
         force,
         dry_run,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -408,7 +408,7 @@ Client::relocate(const Path & path,
         from_url,
         to_url,
         recurse,
-        *m_context,
+        *m_pContext,
         pool.handler());
 
   if (error != NULL)
@@ -430,7 +430,7 @@ void Client::ignore(const Path & path) throw(ClientException)
                                            dirpath.c_str(),
                                            Revision::UNSPECIFIED.revision(),
                                            false, // recursive
-                                           *m_context,
+                                           *m_pContext,
                                            pool.handler());
   if (error != NULL)
     throw ClientException(error);
@@ -469,7 +469,7 @@ void Client::ignore(const Path & path) throw(ClientException)
                               dirpath.c_str(),
                               false,
                               false,
-                              *m_context,
+                              *m_pContext,
                               pool.handler());
   if (error != NULL)
     throw ClientException(error);

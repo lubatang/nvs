@@ -8,8 +8,8 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_SUBVERSION_POOL_H
 #define NVS_SUBVERSION_POOL_H
-#include <svn_pools.h>
 #include <Support/Uncopyable.h>
+#include <svn_pools.h>
 
 namespace nvs {
 

@@ -8,6 +8,7 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_SUBVERSION_CLIENT_H
 #define NVS_SUBVERSION_CLIENT_H
+#include <Support/Uncopyable.h>
 #include <Subversion/Context.h>
 #include <Subversion/Exception.h>
 #include <Subversion/Path.h>
@@ -35,11 +36,8 @@ typedef std::vector<LogEntry> LogEntries;
 typedef std::vector<Status> StatusEntries;
 
 
-// map of property names to values
 typedef std::map<std::string,std::string> PropertiesMap;
-// pair of path, PropertiesMap
 typedef std::pair<std::string, PropertiesMap> PathPropertiesMapEntry;
-// vector of path, Properties pairs
 typedef std::vector<PathPropertiesMapEntry> PathPropertiesMapList;
 
 /**
@@ -66,40 +64,21 @@ public:
   }
 };
 
-/**
- * Subversion client API.
+/** \class Client
+ *  \brief Subversion client API.
  */
-class Client
+class Client : private Uncopyable
 {
 public:
-  /**
-   * Initializes the primary memory pool.
-   */
-  Client(Context * context = 0);
+  Client(Context* pContext = nullptr);
 
-  virtual ~Client();
+  virtual ~Client() { /* DO NOT RESPONSIBLE FOR m_pContext */ }
 
-  /**
-   * @return returns the Client context
-   */
-  const Context *
-    getContext() const;
+  const Context* getContext() const { return m_pContext; }
 
-  /**
-   * @return returns the Client context
-   */
-  Context *
-    getContext();
+  Context* getContext() { return m_pContext; }
 
-  /**
-   * sets the client context
-   * you have to make sure the old context
-   * is de-allocated
-   *
-   * @param context new context to use
-   */
-  void
-    setContext(Context * context = NULL);
+  void setContext(Context* pContext = NULL) { m_pContext = pContext; }
 
   /**
    * Enumerates all files/dirs at a given path.
@@ -140,11 +119,8 @@ public:
    * @return current revnum
    */
   svn_revnum_t
-    status(const char * path,
-        const StatusFilter & filter,
-        bool descend,
-        bool update,
-        StatusEntries & entries) throw(ClientException);
+  status(const char * path, const StatusFilter & filter,
+         bool descend, bool update, StatusEntries & entries) throw(ClientException);
 
 
   /**
@@ -718,8 +694,7 @@ public:
    * @exception ClientException
    * @see svn:ignore property description
    */
-  void
-    ignore(const Path & path) throw(ClientException);
+  void ignore(const Path & path) throw(ClientException);
 
   /**
    * Add files into ignore list.
@@ -731,17 +706,7 @@ public:
   void ignore(const Targets & targets) throw(ClientException);
 
 private:
-  Context* m_context;
-
-  /**
-   * disallow assignment operator
-   */
-  Client & operator= (const Client &);
-
-  /**
-   * disallow copy constructor
-   */
-  Client(const Client &);
+  Context* m_pContext;
 };
 
 } // namespace of nvs
