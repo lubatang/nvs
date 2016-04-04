@@ -104,7 +104,7 @@ Client::diff(const Path & tmpPath, const Path & path,
       path.c_str(), revision2.revision(),
       recurse, ignoreAncestry, noDiffDeleted,
       outfile, errfile,
-      *m_pContext,
+      m_Context,
       pool.handler());
 
   if (error != NULL)
@@ -189,7 +189,7 @@ throw(ClientException)
       path2.c_str(), revision2.revision(),
       recurse, ignoreAncestry, noDiffDeleted,
       outfile, errfile,
-      *m_pContext,
+      m_Context,
       pool.handler());
 
   if (error != NULL)
@@ -274,7 +274,7 @@ Client::diff(const Path & tmpPath, const Path & path,
       revision1.revision(), revision2.revision(),
       recurse, ignoreAncestry, noDiffDeleted,
       outfile, errfile,
-      *m_pContext,
+      m_Context,
       pool.handler());
 
   if (error != NULL)

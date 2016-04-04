@@ -49,7 +49,7 @@ Client::annotate(const Path& path,
       revisionEnd.revision(),
       annotateReceiver,
       entries,
-      *this->m_pContext, // client ctx
+      m_Context,
       pool.handler());
 
   if (error != NULL) {

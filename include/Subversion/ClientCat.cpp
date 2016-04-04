@@ -32,7 +32,7 @@ std::string Client::cat(const Path & path,
       path.c_str(),
       peg_revision.revision(),
       revision.revision(),
-      *m_pContext,
+      m_Context,
       pool.handler());
 
   if (error != 0)
@@ -127,7 +127,7 @@ void Client::get(Path& dstPath,
         path.c_str(),
         peg_revision.revision() ,
         revision.revision(),
-        *m_pContext,
+        m_Context,
         pool.handler());
 
     if (error != 0)

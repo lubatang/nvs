@@ -288,12 +288,11 @@ Client::status(const char * path,
   if (Url::isValid(path))
   {
     StatusEntries entries;
-    remoteStatus(this, path, descend, entries, m_pContext);
+    remoteStatus(this, path, descend, entries, &m_Context);
     return entries;
   }
   else
-    return localStatus(path, descend, get_all, update,
-        no_ignore, m_pContext, ignore_externals);
+    return localStatus(path, descend, get_all, update, no_ignore, &m_Context, ignore_externals);
 }
 
 svn_revnum_t
@@ -306,12 +305,12 @@ Client::status(const char * path,
   entries.clear();
 
   if (Url::isValid(path))
-    return remoteStatus(this, path, descend, entries, m_pContext);
+    return remoteStatus(this, path, descend, entries, &m_Context);
   else {
     // remote URLs only need a subset of the filters:
     // we dont expect any modified, conflicting, unknown,
     // ignored entries. And externals arent visible there anyhow
-    return localFilteredStatus(path, filter, descend, update, entries, m_pContext);
+    return localFilteredStatus(path, filter, descend, update, entries, &m_Context);
   }
 }
 
@@ -335,7 +334,7 @@ Client::log(const char * path, const Revision & revisionStart,
       strictNodeHistory ? 1 : 0,
       logReceiver,
       entries,
-      *m_pContext, // client ctx
+      m_Context,
       pool.handler());
 
   if (error != NULL)
@@ -362,7 +361,7 @@ Client::info(const Path & pathOrUrl,
         infoReceiverFunc,
         &infoVector,
         recurse,
-        *m_pContext,
+        m_Context,
         pool.handler());
 
   if (error != 0)

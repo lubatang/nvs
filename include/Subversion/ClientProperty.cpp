@@ -37,7 +37,7 @@ Client::proplist(const Path & path, const Revision & revision, bool recurse)
           path.c_str(),
           revision.revision(),
           recurse,
-          *m_pContext,
+          m_Context,
           pool.handler());
   if (error != NULL)
     throw ClientException(error);
@@ -86,7 +86,7 @@ Client::propget(const char *propName, const Path & path, const Revision & revisi
          path.c_str(),
          revision.revision(),
          recurse,
-         *m_pContext,
+         m_Context,
          pool.handler());
 
   if (error != NULL)
@@ -139,7 +139,7 @@ void Client::propset(const char *propName,
           path.c_str(),
           recurse,
           skip_checks,
-          *m_pContext,
+          m_Context,
           pool.handler());
   if (error != NULL)
     throw ClientException(error);
@@ -190,7 +190,7 @@ Client::revproplist(const Path & path, const Revision & revision)
         path.c_str(),
         revision.revision(),
         &revnum,
-        *m_pContext,
+        m_Context,
         pool.handler());
 
   if (error != NULL)
@@ -232,7 +232,7 @@ Client::revpropget(const char *propName, const Path & path, const Revision & rev
                                               path.c_str(),
                                               revision.revision(),
                                               &revnum,
-                                              *m_pContext,
+                                              m_Context,
                                               pool.handler());
 
   if (error != NULL)
@@ -273,7 +273,7 @@ Client::revpropset(const char *propName, const char *propValue,
                                               revision.revision(),
                                               &revnum,
                                               force,
-                                              *m_pContext,
+                                              m_Context,
                                               pool.handler());
 
   if (error != NULL)
@@ -305,7 +305,7 @@ svn_revnum_t Client::revpropdel(const char *propName, const Path & path, const R
                                           revision.revision(),
                                           &revnum,
                                           force,
-                                          *m_pContext,
+                                          m_Context,
                                           pool.handler());
 
   if (error != NULL)

@@ -70,15 +70,13 @@ public:
 class Client : private Uncopyable
 {
 public:
-  Client(Context* pContext = nullptr);
+  Client(Context& pContext)
+    : m_Context(pContext) {
+  }
 
-  virtual ~Client() { /* DO NOT RESPONSIBLE FOR m_pContext */ }
+  virtual ~Client() { }
 
-  const Context* getContext() const { return m_pContext; }
-
-  Context* getContext() { return m_pContext; }
-
-  void setContext(Context* pContext = NULL) { m_pContext = pContext; }
+  const Context& getContext() const { return m_Context; }
 
   /**
    * Enumerates all files/dirs at a given path.
@@ -706,7 +704,7 @@ public:
   void ignore(const Targets & targets) throw(ClientException);
 
 private:
-  Context* m_pContext;
+  Context& m_Context;
 };
 
 } // namespace of nvs
