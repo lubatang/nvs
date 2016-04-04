@@ -8,43 +8,45 @@
 //===----------------------------------------------------------------------===//
 #ifndef NVS_SUBVERSION_LOG_ENTRY_H
 #define NVS_SUBVERSION_LOG_ENTRY_H
-#include <apr_time.h>
-#include <svn_types.h>
+#include <Subversion/Subversion.h>
 #include <list>
 #include <string>
 
 namespace nvs {
 
-  struct LogChangePathEntry
-  {
-    LogChangePathEntry(const char *path_,
-                       char action_,
-                       const char *copyFromPath_,
-                       const svn_revnum_t copyFromRevision_);
-
-    std::string path;
-    char action;
-    std::string copyFromPath;
-    svn_revnum_t copyFromRevision;
-  };
-
-
-  struct LogEntry
-  {
+struct LogChangePathEntry
+{
 public:
-    LogEntry();
+  LogChangePathEntry(const char *path_,
+                     char action_,
+                     const char *copyFromPath_,
+                     const RevNum copyFromRevision_);
 
-    LogEntry(const svn_revnum_t revision,
-             const char * author,
-             const char * date,
-             const char * message);
+public:
+  std::string path;
+  char action;
+  std::string copyFromPath;
+  RevNum copyFromRevision;
+};
 
-    svn_revnum_t revision;
-    std::string author;
-    std::string message;
-    std::list<LogChangePathEntry> changedPaths;
-    apr_time_t date;
-  };
+
+struct LogEntry
+{
+public:
+  LogEntry();
+
+  LogEntry(const RevNum revision,
+           const char * author,
+           const char * date,
+           const char * message);
+
+public:
+  RevNum revision;
+  std::string author;
+  std::string message;
+  std::list<LogChangePathEntry> changedPaths;
+  Date date;
+};
 
 } // namespace of nvs
 

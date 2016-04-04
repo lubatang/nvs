@@ -29,8 +29,9 @@ nobase_include_HEADERS = Widget/Point.h \
 	Subversion/Pool.h \
 	Subversion/Property.h \
 	Subversion/Revision.h \
+	Subversion/Subversion.h \
 	Subversion/Status.h \
 	Subversion/StatusSelection.h \
 	Subversion/Targets.h \
-	Subversion/Url.h \
+	Subversion/URL.h \
 	Subversion/Wc.h

@@ -438,19 +438,17 @@ public:
    * You can use the constants Revision::START and
    * Revision::HEAD
    *
-   * @param path
-   * @param revisionStart
-   * @param revisionEnd
+   * @param[in] pPath file path
+   * @param[in] pFrom Start revision
+   * @param[in] pTo   The end of revision
    * @param discoverChangedPaths
    * @param strictNodeHistory
    * @return a vector with log entries
    */
-  const LogEntries *
-    log(const char * path,
-        const Revision & revisionStart,
-        const Revision & revisionEnd,
-        bool discoverChangedPaths = false,
-        bool strictNodeHistory = true) throw(ClientException);
+  const LogEntries* log(const char* pPath,
+                        const Revision& pFrom, const Revision& pTo,
+                        bool discoverChangedPaths = false,
+                        bool strictNodeHistory = true) throw(ClientException);
 
   /**
    * Produce diff output which describes the delta between

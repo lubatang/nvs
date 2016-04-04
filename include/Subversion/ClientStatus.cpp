@@ -314,10 +314,10 @@ Client::status(const char * path,
   }
 }
 
-const LogEntries *
-Client::log(const char * path, const Revision & revisionStart,
-    const Revision & revisionEnd, bool discoverChangedPaths,
-    bool strictNodeHistory) throw(ClientException)
+const LogEntries*
+Client::log(const char* path,
+            const Revision & revisionStart, const Revision& revisionEnd,
+            bool discoverChangedPaths, bool strictNodeHistory) throw(ClientException)
 {
   Pool pool;
   Targets target(path);
@@ -337,8 +337,7 @@ Client::log(const char * path, const Revision & revisionStart,
       m_Context,
       pool.handler());
 
-  if (error != NULL)
-  {
+  if (error != NULL) {
     delete entries;
     throw ClientException(error);
   }
