@@ -22,8 +22,9 @@ class ContextListener;
 class Context
 {
 public:
-  /// @param[in] pConfigDir location where the subversion api stores its
-  /// configuration
+  Context();
+
+  /// @param[in] pConfigDir Location of run-time configuration files
   Context(const std::string &pConfigDir);
 
   Context(const Context &pOther);

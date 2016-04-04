@@ -51,7 +51,9 @@ public:
   static svn_error_t * getData(void * baton, Data ** data);
 
 public:
-  Data(const std::string & configDir_);
+  Data();
+
+  Data(const std::string& pConfigDir);
 
   void setAuthCache(bool value);
 
@@ -158,8 +160,7 @@ public:
      * @param msg log message
      * @retval false cancel
      */
-    bool
-    retrieveLogMessage(std::string & msg);
+    bool retrieveLogMessage(std::string & msg);
 
     /**
      * if the @a listener is set and no password has been
@@ -172,10 +173,7 @@ public:
      * @return continue?
      * @retval false cancel
      */
-    bool
-    retrieveLogin(const char * username_,
-                  const char * realm,
-                  bool &may_save);
+    bool retrieveLogin(const char * username_, const char * realm, bool &may_save);
 
   /**
    * if the @a listener is set call the method
@@ -191,6 +189,9 @@ public:
 
   /// if the @a listener is set call the method @a contextCancel
   bool cancel();
+
+private:
+  void initialize(const char* pConfigDir);
 };
 
 } // namespace of nvs

@@ -68,16 +68,10 @@ svn_error_t* Context::Data::getData(void * baton, Data ** data)
   return SVN_NO_ERROR;
 }
 
-Context::Data::Data(const std::string & configDir_)
-  : listener(0), logIsSet(false), promptCounter(0), configDir(configDir_)
+void Context::Data::initialize(const char* pConfigDir)
 {
-  const char * c_configDir = 0;
-  if (configDir.length() > 0)
-    c_configDir = configDir.c_str();
-
   // make sure the configuration directory exists
-  svn_config_ensure(c_configDir, pool.handler());
-
+  svn_config_ensure(pConfigDir, pool.handler());
 
   // intialize authentication providers
   // * simple
@@ -150,11 +144,10 @@ Context::Data::Data(const std::string & configDir_)
   memset(&ctx, 0, sizeof(ctx));
 
   // get the config based on the configDir passed in
-  svn_config_get_config(&ctx.config, c_configDir, pool.handler());
+  svn_config_get_config(&ctx.config, pConfigDir, pool.handler());
 
   // tell the auth functions where the config is
-  svn_auth_set_parameter(ab, SVN_AUTH_PARAM_CONFIG_DIR,
-      c_configDir);
+  svn_auth_set_parameter(ab, SVN_AUTH_PARAM_CONFIG_DIR, pConfigDir);
 
   ctx.auth_baton = ab;
   ctx.log_msg_func = onLogMsg;
@@ -168,6 +161,16 @@ Context::Data::Data(const std::string & configDir_)
   ctx.notify_func2 = onNotify2;
   ctx.notify_baton2 = this;
 #endif
+}
+
+Context::Data::Data()
+  : listener(0), logIsSet(false), promptCounter(0), configDir() {
+  initialize(nullptr);
+}
+
+Context::Data::Data(const std::string & pConfigDir)
+  : listener(0), logIsSet(false), promptCounter(0), configDir(pConfigDir) {
+  initialize(pConfigDir.c_str());
 }
 
 void Context::Data::setAuthCache(bool value)

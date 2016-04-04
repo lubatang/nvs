@@ -20,6 +20,10 @@ using namespace nvs;
 //===----------------------------------------------------------------------===//
 // Context
 //===----------------------------------------------------------------------===//
+Context::Context()
+  : m_pData(new Data()) {
+}
+
 Context::Context(const std::string& pConfigDir)
   : m_pData(new Data(pConfigDir)) {
 }
