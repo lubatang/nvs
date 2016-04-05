@@ -42,7 +42,7 @@ Revision::Revision(const DateTime dateTime)
   m_revision.value.date = dateTime.GetAPRTimeT();
 }
 
-Revision::Revision(const Revision & revision)
+Revision::Revision(const Revision& revision)
 {
   init(revision.revision());
 }

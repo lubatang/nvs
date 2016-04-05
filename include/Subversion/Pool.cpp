@@ -6,14 +6,6 @@
 // See LICENSE for details.
 //
 //===----------------------------------------------------------------------===//
-//===----------------------------------------------------------------------===//
-//
-//                            The NVS Project
-//
-// This file is distributed under GNU GENERAL PUBLIC LICENSE, Version 3.
-// See LICENSE for details.
-//
-//===----------------------------------------------------------------------===//
 #include <Subversion/Pool.h>
 
 using namespace nvs;
@@ -40,7 +32,6 @@ void Pool::renew()
 void Pool::doInit()
 {
   /// Apr initializes the pool automatically.
-
   if (nullptr != m_pParent)
     m_pPool = svn_pool_create(m_pParent->handler());
   else

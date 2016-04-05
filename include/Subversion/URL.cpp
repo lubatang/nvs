@@ -49,11 +49,15 @@ Url::Url() {
 Url::~Url() {
 }
 
-bool Url::isValid(const char * urlToValidate)
+bool Url::isValid(const char * pURL)
 {
-  return svn_path_is_url(urlToValidate) != 0;
+  return (0 != svn_path_is_url(pURL));
 }
 
+bool Url::isValid(const std::string& pURL)
+{
+  return (0 != svn_path_is_url(pURL.c_str()));
+}
 
 std::string Url::escape(const char * url)
 {

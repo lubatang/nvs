@@ -50,12 +50,12 @@ void Context::setLogin(const std::string& pUsername, const std::string& pPasswor
 
 Context::operator svn_client_ctx_t* ()
 {
-  return &(m_pData->ctx);
+  return m_pData->ctx;
 }
 
 svn_client_ctx_t* Context::ctx()
 {
-  return &(m_pData->ctx);
+  return m_pData->ctx;
 }
 
 void Context::setLogMessage(const char * msg)

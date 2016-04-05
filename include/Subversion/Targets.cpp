@@ -18,6 +18,10 @@ using namespace nvs;
 //===----------------------------------------------------------------------===//
 // Targets
 //===----------------------------------------------------------------------===//
+Targets::Targets()
+{
+}
+
 Targets::Targets(const PathVector & targets)
 {
   m_targets = targets;
@@ -43,10 +47,10 @@ Targets::Targets(const Targets & targets)
   m_targets = targets.targets();
 }
 
-Targets::Targets(const char * target)
+Targets::Targets(const std::string& pTarget)
 {
-  if (target != 0)
-    m_targets.push_back(target);
+  if (!pTarget.empty())
+    m_targets.push_back(pTarget);
 }
 
 Targets::~Targets()
@@ -55,18 +59,15 @@ Targets::~Targets()
 
 const apr_array_header_t* Targets::array(const Pool& pool) const
 {
-  PathVector::const_iterator it;
-
   apr_pool_t *apr_pool = pool.handler();
-  apr_array_header_t *apr_targets =
-    apr_array_make(apr_pool,
-                   m_targets.size(),
-                   sizeof(const char *));
+  apr_array_header_t *apr_targets = apr_array_make(apr_pool,
+                                                   m_targets.size(),
+                                                   sizeof(const char *));
 
-  for (it = m_targets.begin(); it != m_targets.end(); it++) {
+  PathVector::const_iterator it, iEnd = m_targets.end();
+  for (it = m_targets.begin(); it != iEnd; ++it) {
     const Path &path = *it;
-    const char * target =
-      apr_pstrdup(apr_pool, path.c_str());
+    const char * target = apr_pstrdup(apr_pool, path.c_str());
 
     (*((const char **) apr_array_push(apr_targets))) = target;
   }

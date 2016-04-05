@@ -18,54 +18,16 @@ using namespace nvs;
 //===----------------------------------------------------------------------===//
 // Context::Data
 //===----------------------------------------------------------------------===//
-/// translate native c-string to utf8
-svn_error_t *
-Context::Data::translateString(const char* str, const char** newStr, apr_pool_t* /*pool*/)
-{
-  // due to problems with apr_xlate we dont perform
-  // any conversion at this place. YOU will have to make
-  // sure any strings passed are UTF 8 strings
-  // svn_string_t *string = svn_string_create ("", pool);
-  //
-  // string->data = str;
-  // string->len = strlen (str);
-  //
-  // const char * encoding = APR_LOCALE_CHARSET;
-  //
-  // SVN_ERR (svn_subst_translate_string (&string, string,
-  //                                      encoding, pool));
-  //
-  // *newStr = string->data;
-  *newStr = str;
-  return SVN_NO_ERROR;
+Context::Data::Data()
+  : listener(nullptr), logIsSet(false), promptCounter(0), ctx(nullptr),
+    configDir() {
+  initialize(nullptr);
 }
 
-/**
- * the @a baton is interpreted as Data *
- * Several checks are performed on the baton:
- * - baton == 0?
- * - baton->Data
- * - listener set?
- *
- * @param baton
- * @param data returned data if everything is OK
- * @retval SVN_NO_ERROR if everything is fine
- * @retval SVN_ERR_CANCELLED on invalid values
- */
-svn_error_t* Context::Data::getData(void * baton, Data ** data)
-{
-  if (baton == NULL)
-    return svn_error_create(SVN_ERR_CANCELLED, NULL,
-        "invalid baton");
-
-  Data * data_ = static_cast <Data *>(baton);
-
-  if (data_->listener == 0)
-    return svn_error_create(SVN_ERR_CANCELLED, NULL,
-        "invalid listener");
-
-  *data = data_;
-  return SVN_NO_ERROR;
+Context::Data::Data(const std::string & pConfigDir)
+  : listener(nullptr), logIsSet(false), promptCounter(0), ctx(nullptr),
+    configDir(pConfigDir) {
+  initialize(pConfigDir.c_str());
 }
 
 void Context::Data::initialize(const char* pConfigDir)
@@ -84,93 +46,76 @@ void Context::Data::initialize(const char* pConfigDir)
   // * ssl client cert file
   // ===================
   // 8 providers
-
-  apr_array_header_t *providers =
+  apr_array_header_t* providers =
     apr_array_make(pool.handler(), 8,
         sizeof(svn_auth_provider_object_t *));
+
   svn_auth_provider_object_t *provider;
 
-  svn_client_get_simple_provider(
-      &provider,
-      pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  // simple
+  svn_client_get_simple_provider(&provider, pool.handler());
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
-  svn_client_get_username_provider(
-      &provider,
-      pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  // user name
+  svn_client_get_username_provider(&provider, pool.handler());
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
-  svn_client_get_simple_prompt_provider(
-      &provider,
-      onSimplePrompt,
-      this,
-      100000000, // not very nice. should be infinite...
-      pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  // simple prompt
+  svn_client_get_simple_prompt_provider(&provider, onSimplePrompt,
+                                        this,
+                                        100000000, //< not very nice. should be infinite...
+                                        pool.handler());
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
   // add ssl providers
 
   // file first then prompt providers
   svn_client_get_ssl_server_trust_file_provider(&provider, pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
+  // ssl server trust prompt
   svn_client_get_ssl_client_cert_file_provider(&provider, pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
+  // ssl client cert pw file
   svn_client_get_ssl_client_cert_pw_file_provider(&provider, pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
+  // * ssl client cert pw prompt
   svn_client_get_ssl_server_trust_prompt_provider(
       &provider, onSslServerTrustPrompt, this, pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
+  // * ssl client cert file
   // plugged in 3 as the retry limit - what is a good limit?
   svn_client_get_ssl_client_cert_pw_prompt_provider(
       &provider, onSslClientCertPwPrompt, this, 3, pool.handler());
-  *(svn_auth_provider_object_t **)apr_array_push(providers) =
-    provider;
+  *(svn_auth_provider_object_t **)apr_array_push(providers) = provider;
 
   svn_auth_baton_t *ab;
   svn_auth_open(&ab, providers, pool.handler());
 
   // initialize ctx structure
-  memset(&ctx, 0, sizeof(ctx));
+  svn_client_create_context(&ctx, pool.handler());
 
   // get the config based on the configDir passed in
-  svn_config_get_config(&ctx.config, pConfigDir, pool.handler());
+  svn_config_get_config(&(ctx->config), pConfigDir, pool.handler());
 
   // tell the auth functions where the config is
   svn_auth_set_parameter(ab, SVN_AUTH_PARAM_CONFIG_DIR, pConfigDir);
 
-  ctx.auth_baton = ab;
-  ctx.log_msg_func = onLogMsg;
-  ctx.log_msg_baton = this;
-  ctx.notify_func = onNotify;
-  ctx.notify_baton = this;
-  ctx.cancel_func = onCancel;
-  ctx.cancel_baton = this;
+  ctx->auth_baton = ab;
+  ctx->log_msg_func = onLogMsg;
+  ctx->log_msg_baton = this;
+  ctx->notify_func = onNotify;
+  ctx->notify_baton = this;
+  ctx->cancel_func = onCancel;
+  ctx->cancel_baton = this;
 
 #if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
-  ctx.notify_func2 = onNotify2;
-  ctx.notify_baton2 = this;
+  ctx->notify_func2 = onNotify2;
+  ctx->notify_baton2 = this;
 #endif
-}
-
-Context::Data::Data()
-  : listener(0), logIsSet(false), promptCounter(0), configDir() {
-  initialize(nullptr);
-}
-
-Context::Data::Data(const std::string & pConfigDir)
-  : listener(0), logIsSet(false), promptCounter(0), configDir(pConfigDir) {
-  initialize(pConfigDir.c_str());
 }
 
 void Context::Data::setAuthCache(bool value)
@@ -179,7 +124,7 @@ void Context::Data::setAuthCache(bool value)
   if (!value)
     param = (void *)"1";
 
-  svn_auth_set_parameter(ctx.auth_baton,
+  svn_auth_set_parameter(ctx->auth_baton,
       SVN_AUTH_PARAM_NO_AUTH_CACHE,
       param);
 }
@@ -189,7 +134,7 @@ void Context::Data::setLogin(const char * usr, const char * pwd)
   username = usr;
   password = pwd;
 
-  svn_auth_baton_t * ab = ctx.auth_baton;
+  svn_auth_baton_t * ab = ctx->auth_baton;
   svn_auth_set_parameter(ab, SVN_AUTH_PARAM_DEFAULT_USERNAME,
       username.c_str());
   svn_auth_set_parameter(ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD,
@@ -210,10 +155,10 @@ void Context::Data::setLogMessage(const char * msg)
  */
 svn_error_t*
 Context::Data::onLogMsg(const char **log_msg,
-    const char **tmp_file,
-    apr_array_header_t *, //UNUSED commit_items
-    void *baton,
-    apr_pool_t * pool)
+                        const char **tmp_file,
+                        apr_array_header_t *, //UNUSED commit_items
+                        void *baton,
+                        apr_pool_t * pool)
 {
   Data * data = NULL;
   SVN_ERR(getData(baton, &data));
@@ -221,8 +166,7 @@ Context::Data::onLogMsg(const char **log_msg,
   std::string msg;
   if (data->logIsSet)
     msg = data->getLogMessage();
-  else
-  {
+  else {
     if (!data->retrieveLogMessage(msg))
       return svn_error_create(SVN_ERR_CANCELLED, NULL, "");
   }
@@ -545,12 +489,57 @@ void Context::Data::notify(const char *path,
 bool Context::Data::cancel()
 {
   if (listener != 0)
-  {
     return listener->contextCancel();
-  }
   else
-  {
-    // don't cancel if no listener
     return false;
-  }
+}
+
+/// translate native c-string to utf8
+svn_error_t *
+Context::Data::translateString(const char* str, const char** newStr, apr_pool_t* /*pool*/)
+{
+  // due to problems with apr_xlate we dont perform
+  // any conversion at this place. YOU will have to make
+  // sure any strings passed are UTF 8 strings
+  // svn_string_t *string = svn_string_create ("", pool);
+  //
+  // string->data = str;
+  // string->len = strlen (str);
+  //
+  // const char * encoding = APR_LOCALE_CHARSET;
+  //
+  // SVN_ERR (svn_subst_translate_string (&string, string,
+  //                                      encoding, pool));
+  //
+  // *newStr = string->data;
+  *newStr = str;
+  return SVN_NO_ERROR;
+}
+
+/**
+ * the @a baton is interpreted as Data *
+ * Several checks are performed on the baton:
+ * - baton == 0?
+ * - baton->Data
+ * - listener set?
+ *
+ * @param baton
+ * @param data returned data if everything is OK
+ * @retval SVN_NO_ERROR if everything is fine
+ * @retval SVN_ERR_CANCELLED on invalid values
+ */
+svn_error_t* Context::Data::getData(void * baton, Data ** data)
+{
+  if (baton == NULL)
+    return svn_error_create(SVN_ERR_CANCELLED, NULL,
+        "invalid baton");
+
+  Data * data_ = static_cast <Data *>(baton);
+
+  if (data_->listener == 0)
+    return svn_error_create(SVN_ERR_CANCELLED, NULL,
+        "invalid listener");
+
+  *data = data_;
+  return SVN_NO_ERROR;
 }

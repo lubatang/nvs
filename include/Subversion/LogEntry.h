@@ -17,9 +17,9 @@ namespace nvs {
 struct LogChangePathEntry
 {
 public:
-  LogChangePathEntry(const char* pPath,
+  LogChangePathEntry(const std::string& pPath,
                      char pAction,
-                     const char *pCopyFromPath,
+                     const std::string& pCopyFromPath,
                      const RevNum& pCopyFromRevision);
 
 public:
@@ -35,9 +35,9 @@ public:
   LogEntry();
 
   LogEntry(const RevNum& revision,
-           const char* author,
-           const char* date,
-           const char* message);
+           const std::string& pAuthor,
+           const std::string& pDate,
+           const std::string& pMesg);
 
 public:
   RevNum revision;

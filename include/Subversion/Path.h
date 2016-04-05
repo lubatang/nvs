@@ -27,7 +27,7 @@ namespace nvs {
      *
      * @param path Path string
      */
-    void init(const char * path);
+    void init(const char* path);
 
   public:
     /**
@@ -37,7 +37,7 @@ namespace nvs {
      *
      * @param path Path string
      */
-    Path(const std::string & path = "");
+    Path(const std::string& pPath);
 
     /**
      * Constructor
@@ -45,7 +45,7 @@ namespace nvs {
      * @see Path::Path (const std::string &)
      * @param path Path string
      */
-    Path(const char * path);
+    Path(const char* pPath = nullptr);
 
     /**
      * Copy constructor
@@ -62,20 +62,17 @@ namespace nvs {
     /**
      * Comparison operator
      */
-    bool
-    operator== (const Path&) const;
+    bool operator== (const Path&) const;
 
     /**
      * @return Path string
      */
-    const std::string &
-    path() const;
+    const std::string& path() const;
 
     /**
      * @return Path string as c string
      */
-    const char *
-    c_str() const;
+    const char* c_str() const;
 
     /**
      * check whether a path is set. Right now
@@ -89,32 +86,28 @@ namespace nvs {
      *
      * @return true if there is a path set
      */
-    bool
-    isSet() const;
+    bool isSet() const;
 
     /**
      * shows whether we have a path or url
      *
      * @return true if the path is a valid url
      */
-    bool
-    isUrl() const;
+    bool isUrl() const;
 
     /**
      * adds a new URL component to the path
      *
      * @param component new component to add
      */
-    void
-    addComponent(const char * component);
+    void addComponent(const char * component);
 
     /**
      * adds a new URL component to the path
      *
      * @param component new component to add
      */
-    void
-    addComponent(const std::string & component);
+    void addComponent(const std::string & component);
 
     /**
      * split path in its components
@@ -122,8 +115,7 @@ namespace nvs {
      * @param dirpath directory/path component
      * @param basename filename
      */
-    void
-    split(std::string & dirpath, std::string & basename) const;
+    void split(std::string & dirpath, std::string & basename) const;
 
     /**
      * split path in its components including
@@ -133,24 +125,21 @@ namespace nvs {
      * @param filename filename
      * @param ext extension (including leading dot ".")
      */
-    void
-    split(std::string & dir, std::string & filename, std::string & ext) const;
+    void split(std::string & dir, std::string & filename, std::string & ext) const;
 
     /**
      * get a basename of a file
      *
      * @return basename filename without path
      */
-    std::string
-    basename() const;
+    std::string basename() const;
 
     /**
      * get a name of directory containing file
      *
      * @return dirpath path of directory
      */
-    std::string
-    dirpath() const;
+    std::string dirpath() const;
 
     /**
      * get a substring of a path, starting at index
@@ -158,30 +147,25 @@ namespace nvs {
      * @param index
      * @return substr substring
      */
-    std::string
-    substr(const size_t index) const;
+    std::string substr(const size_t index) const;
 
     /**
      * return path as a string with unescaped special characters
      *
      * @return unescaped path
      */
-    std::string
-    unescape() const;
+    std::string unescape() const;
 
     /**
      * returns the temporary directory
      */
-    static Path
-    getTempDir();
+    static Path getTempDir();
 
     /** return the length of the path-string */
-    size_t
-    length() const;
+    size_t length() const;
 
     /** returns the path with native separators */
-    std::string
-    native() const;
+    std::string native() const;
   };
 
   typedef std::vector<Path> PathVector;

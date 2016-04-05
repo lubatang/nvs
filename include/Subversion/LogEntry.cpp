@@ -16,12 +16,12 @@ using namespace nvs;
 //===----------------------------------------------------------------------===//
 // LogChangePathEntry
 //===----------------------------------------------------------------------===//
-LogChangePathEntry::LogChangePathEntry(const char* pPath, char pAction,
-                                       const char *pCopyFromPath,
+LogChangePathEntry::LogChangePathEntry(const std::string& pPath,
+                                       char pAction,
+                                       const std::string& pCopyFromPath,
                                        const RevNum& pCopyFromRevision)
   : path(pPath), action(pAction),
-  copyFromPath(pCopyFromPath != NULL ? pCopyFromPath : ""),
-  copyFromRevision(pCopyFromRevision) {
+    copyFromPath(pCopyFromPath), copyFromRevision(pCopyFromRevision) {
 }
 
 //===----------------------------------------------------------------------===//
@@ -32,18 +32,13 @@ LogEntry::LogEntry()
 }
 
 LogEntry::LogEntry(const RevNum& pRev,
-                   const char * pAuthor, const char * pDate, const char * pMesg)
-{
-  date = 0;
-
-  if (pDate != 0) {
+                   const std::string& pAuthor,
+                   const std::string& pDate,
+                   const std::string& pMesg)
+  : revision(pRev), author(pAuthor), message(pMesg), date(0) {
+  if (!pDate.empty()) {
     Pool pool;
-
-    if (svn_time_from_cstring(&date, pDate, pool.handler()) != 0)
+    if (0 != svn_time_from_cstring(&date, pDate.c_str(), pool.handler()))
       date = 0;
   }
-
-  revision = pRev;
-  author = pAuthor == 0 ? "" : pAuthor;
-  message = pMesg == 0 ? "" : pMesg;
 }

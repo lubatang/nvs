@@ -45,10 +45,10 @@ struct StatusBaton
 static svn_error_t* logReceiver(void *baton,
                                 apr_hash_t * changedPaths,
                                 RevNum rev,
-                                const char *author,
-                                const char *date,
-                                const char *msg,
-                                apr_pool_t * pool)
+                                const char* author,
+                                const char* date,
+                                const char* msg,
+                                apr_pool_t* pool)
 {
   LogEntries * entries = (LogEntries *) baton;
   entries->insert(entries->begin(), LogEntry(rev, author, date, msg));
@@ -309,18 +309,18 @@ Client::status(const char * path,
 }
 
 const LogEntries*
-Client::log(const char* path,
-            const Revision& revisionStart, const Revision& revisionEnd,
+Client::log(const std::string& pPath,
+            const Revision& pFrom, const Revision& pTo,
             bool discoverChangedPaths, bool strictNodeHistory) throw(ClientException)
 {
   Pool pool;
-  Targets target(path);
-  LogEntries * entries = new LogEntries();
+  Targets target(pPath);
+  LogEntries* entries = new LogEntries();
   int limit = 0;
 
   svn_error_t* error = svn_client_log2(target.array(pool),
-                                       revisionStart.revision(),
-                                       revisionEnd.revision(),
+                                       pFrom.revision(),
+                                       pTo.revision(),
                                        limit,
                                        discoverChangedPaths ? 1 : 0,
                                        strictNodeHistory ? 1 : 0,

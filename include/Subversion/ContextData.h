@@ -17,15 +17,11 @@ namespace nvs {
 struct Context::Data
 {
 public:
-  /// The usage of Apr makes sure Apr is initialized
-  /// before any use of apr functions.
-  Apr apr;
-
   ContextListener* listener;
   bool logIsSet;
   int promptCounter;
   Pool pool;
-  svn_client_ctx_t ctx;
+  svn_client_ctx_t* ctx;
   std::string username;
   std::string password;
   std::string logMessage;

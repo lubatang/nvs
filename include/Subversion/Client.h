@@ -322,11 +322,9 @@ public:
    * @param path
    * @exception ClientException
    */
-  void
-    mkdir(const Path & path) throw(ClientException);
+  void mkdir(const Path & path) throw(ClientException);
 
-  void
-    mkdir(const Targets & targets) throw(ClientException);
+  void mkdir(const Targets & targets) throw(ClientException);
 
   /**
    * Recursively cleans up a local directory, finishing any
@@ -445,7 +443,7 @@ public:
    * @param strictNodeHistory
    * @return a vector with log entries
    */
-  const LogEntries* log(const char* pPath,
+  const LogEntries* log(const std::string& pPath,
                         const Revision& pFrom, const Revision& pTo,
                         bool discoverChangedPaths = false,
                         bool strictNodeHistory = true) throw(ClientException);

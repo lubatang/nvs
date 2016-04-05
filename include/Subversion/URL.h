@@ -30,8 +30,9 @@ namespace nvs {
      * Example of an invalid URL:
      *   /home/foo/bar
      */
-    static bool
-    isValid(const char * urlToValidate);
+    static bool isValid(const char * urlToValidate);
+
+    static bool isValid(const std::string& urlToValidate);
 
     /**
      * returns a url with forbidden charachters like spaces escaped

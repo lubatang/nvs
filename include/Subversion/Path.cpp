@@ -34,21 +34,13 @@ Path::Path(const Path & path)
   init(path.c_str());
 }
 
-void Path::init(const char * path)
+void Path::init(const char* pPath)
 {
-  Pool pool;
-
   m_pathIsUrl = false;
-
-  if (path == 0)
-    m_path = "";
-  else {
-    const char * int_path = svn_path_internal_style(path, pool.handler());
-
-    m_path = int_path;
-
-    if (nvs::Url::isValid(int_path))
-      m_pathIsUrl = true;
+  if (nullptr != pPath) {
+    Pool pool;
+    m_path = svn_path_internal_style(pPath, pool.handler());
+    m_pathIsUrl = (nvs::Url::isValid(m_path));
   }
 }
 
@@ -126,22 +118,19 @@ void Path::addComponent(const char * component)
 
   // if the @a component is absolute, simply
   // use it
-  if (isAbsolute(component))
-  {
+  if (isAbsolute(component)) {
     m_path = component;
     return;
   }
 
-  if (Url::isValid(m_path.c_str()))
-  {
+  if (Url::isValid(m_path)) {
     const char * newPath =
       svn_path_url_add_component(m_path.c_str(),
           component,
           pool.handler());
     m_path = newPath;
   }
-  else
-  {
+  else {
     svn_stringbuf_t * pathStringbuf =
       svn_stringbuf_create(m_path.c_str(), pool.handler());
 
