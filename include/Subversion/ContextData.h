@@ -28,25 +28,6 @@ public:
   std::string configDir;
 
 public:
-  /// translate native c-string to utf8
-  static svn_error_t *
-  translateString(const char* pStr, const char** pNewStr, apr_pool_t*);
-
-  /**
-   * the @a baton is interpreted as Data *
-   * Several checks are performed on the baton:
-   * - baton == 0?
-   * - baton->Data
-   * - listener set?
-   *
-   * @param baton
-   * @param data returned data if everything is OK
-   * @retval SVN_NO_ERROR if everything is fine
-   * @retval SVN_ERR_CANCELLED on invalid values
-   */
-  static svn_error_t * getData(void * baton, Data ** data);
-
-public:
   Data();
 
   Data(const std::string& pConfigDir);
@@ -185,6 +166,24 @@ public:
 
   /// if the @a listener is set call the method @a contextCancel
   bool cancel();
+
+  /// translate native c-string to utf8
+  static svn_error_t *
+  translateString(const char* pStr, const char** pNewStr, apr_pool_t*);
+
+  /**
+   * the @a baton is interpreted as Data *
+   * Several checks are performed on the baton:
+   * - baton == 0?
+   * - baton->Data
+   * - listener set?
+   *
+   * @param baton
+   * @param data returned data if everything is OK
+   * @retval SVN_NO_ERROR if everything is fine
+   * @retval SVN_ERR_CANCELLED on invalid values
+   */
+  static svn_error_t * getData(void * baton, Data ** data);
 
 private:
   void initialize(const char* pConfigDir);
