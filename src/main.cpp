@@ -12,36 +12,58 @@
 #include <Widget/Cursor.h>
 #include <NVSView.h>
 #include <Subversion/Client.h>
+#include <Subversion/Context.h>
+#include <Subversion/Apr.h>
 
 using namespace nvs;
 
-static void item(Cursor& pCursor, int pX, int pY)
+static void item(Cursor& pCursor, int pX, int pY, const LogEntries& pEntries)
 {
+  std::string msg(pEntries[pY].message.substr(0, pEntries[pY].message.find_first_of('\n')));
   pCursor.move(pX, pY);
-  pCursor << Color::Blue << "2016-01-04 13:14 "
-          << Color::Green << "Jonas Fonseca "
+  pCursor << Color::Blue <<  pEntries[pY].revision
+          << " "
+          << Color::Green << pEntries[pY].author
           << Color::Cyan << "     o "
-          << Color::Reset << "Update NEWS with post 2.1.1 changes";
+          << Color::Reset << msg;
 }
 
-static void bar(Cursor& pCursor, int pX, int pY)
+static void bar(Cursor& pCursor, int pX, int pY, const LogEntries& pEntries)
 {
+  std::string msg(pEntries[pY].message.substr(0, pEntries[pY].message.find_first_of('\n')));
   pCursor.move(pX, pY);
   pCursor << Color::White << Color::bg << Color::Green
-          << "2016-01-04 13:14 "
-          << "Jonas Fonseca "
+          << pEntries[pY].revision
+          << " "
+          << pEntries[pY].author
           << "     o "
-          << "Update NEWS with post 2.1.1 changes" << Color::Reset;
+          << msg << Color::Reset;
 }
 
 int main(int pArgc, char* pArgv[])
 {
+  std::string URL;
+  if (pArgc <= 1) {
+    printf("Usage:  %s URL\n", pArgv[0]);
+    return EXIT_FAILURE;
+  }
+  else
+    URL = pArgv[1];
+
   Application app;
 
+  // Window
   Window win;
   Cursor* cursor = new Cursor(win, 0, 0);
+
+  // Subversion
+  Apr apr;
+  Context context;
+  Client client(context);
+  const LogEntries* entries = client.log(URL, Revision::START, Revision::WORKING);
+
   for (int i = 0; i < win.height(); ++i)
-    item(*cursor, 0, i);
+    item(*cursor, 0, i, *entries);
 
   cursor->reset();
   int cur_y = 0;
@@ -55,17 +77,20 @@ int main(int pArgc, char* pArgv[])
       case KEY_UP: {
         if (0 == cur_y)
           break;
-        item(*cursor, 0, cur_y);
-        bar(*cursor, 0, --cur_y);
+        item(*cursor, 0, cur_y, *entries);
+        bar(*cursor, 0, --cur_y, *entries);
         break;
       }
       case KEY_DOWN: {
         if (win.height()-1 == cur_y)
           break;
-        item(*cursor, 0, cur_y);
-        bar(*cursor, 0, ++cur_y);
+        item(*cursor, 0, cur_y, *entries);
+        bar(*cursor, 0, ++cur_y, *entries);
         break;
       }
+      case KEY_RIGHT: {
+      }
+
       default:
         break;
     }
