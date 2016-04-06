@@ -63,6 +63,12 @@ bool Cursor::reset()
   return (OK == wstandend(m_Window.win()));
 }
 
+Cursor& Cursor::operator<<(long pNumber)
+{
+  wprintw(m_Window.win(), "%ld", pNumber);
+  return *this;
+}
+
 Cursor& Cursor::operator<<(const std::string& pText)
 {
   waddstr(m_Window.win(), pText.c_str());

@@ -40,6 +40,8 @@ public:
 
   bool reset();
 
+  Cursor& operator<<(long pNumber);
+
   Cursor& operator<<(const std::string& pText);
 
   Cursor& operator<<(Color::Type pColor);
