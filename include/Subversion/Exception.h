@@ -12,77 +12,50 @@
 
 namespace nvs {
 
-  /**
-   * Generic exception class.
-   */
-  class Exception
-  {
-  public:
-    /**
-     * Constructor.  Assigns the exception reason.
-     */
-    Exception(const char * message) throw();
+class Exception
+{
+public:
+  Exception(const char * message) throw();
 
-    ~Exception() throw();
+  ~Exception() throw();
 
-    /**
-     * @return the exception message.
-     */
-    const char * message() const;
+  const char * message() const;
 
-    /**
-     * @return the outermost error code.
-     */
-    apr_status_t apr_err() const;
+  apr_status_t apr_err() const;
 
-  protected:
-    struct Data;
-    Data * m;
+protected:
+  struct Data;
+  Data * m;
 
-  private:
+private:
 
-    Exception(const Exception &) throw();
+  Exception(const Exception &) throw();
 
-    Exception() throw();
+  Exception() throw();
 
-    Exception & operator = (const Exception &);
-  };
+  Exception & operator = (const Exception &);
+};
 
-  /**
-   * Subversion client exception class.
-   */
-  class ClientException : public Exception
-  {
-  public:
-    /**
-     * Constructor.  Sets the error template and an optional message.
-     */
-    ClientException(svn_error_t * error) throw();
+class ClientException : public Exception
+{
+public:
+  ClientException(svn_error_t * error) throw();
 
+  ClientException(apr_status_t status) throw();
 
-    /**
-     * Constructor that takes only an apr errorcode
-     */
-    ClientException(apr_status_t status) throw();
+  ClientException(const char * message) throw()
+    : Exception(message) {
+  }
 
-    ClientException(const char * message) throw()
-        : Exception(message)
-    {
-    }
+  ClientException(const ClientException & src) throw();
 
+  virtual ~ClientException() throw();
 
-    /**
-     * Copy constructor
-     */
-    ClientException(const ClientException & src) throw();
+private:
+  ClientException() throw();
 
-    virtual ~ClientException() throw();
-
-  private:
-    ClientException() throw();
-
-    ClientException & operator = (ClientException &);
-  };
+  ClientException & operator = (ClientException &);
+};
 
 } // namespace of nvs
 

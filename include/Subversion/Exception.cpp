@@ -78,11 +78,9 @@ ClientException::ClientException(svn_error_t * error) throw()
   std::string & message = m->message;
   if (error->message)
     message = error->message;
-  else
-  {
+  else {
     message = "Unknown error!\n";
-    if (error->file)
-    {
+    if (error->file) {
       message += "In file ";
       message += error->file;
       std::stringstream num;
@@ -90,8 +88,7 @@ ClientException::ClientException(svn_error_t * error) throw()
       message += num.str();
     }
   }
-  while (next != NULL && next->message != NULL)
-  {
+  while (next != NULL && next->message != NULL) {
     message = message + "\n" + next->message;
 
     next = next->child;
