@@ -12,15 +12,15 @@
 
 namespace nvs {
 
-/**
- * This is the interface that is used by @a Context
- * for callbacks.
- * To use this you will have to inherit from this
- * interface and overwrite the virtual methods.
+/** \class ContextListener
+ *  \brief The ContextListener class provides an interface to listen the 
+ * 
  */
 class ContextListener
 {
 public:
+  virtual ~ContextListener() { }
+
   /**
    * this method will be called to retrieve
    * authentication information
@@ -69,8 +69,7 @@ public:
    * @return cancel action?
    * @retval true cancel
    */
-  virtual bool
-  contextCancel() = 0;
+  virtual bool contextCancel() = 0;
 
   /**
    * this method will be called to retrieve
@@ -83,15 +82,14 @@ public:
    * @return continue action?
    * @retval true continue
    */
-  virtual bool
-  contextGetLogMessage(std::string & msg) = 0;
+  virtual bool contextGetLogMessage(std::string & msg) = 0;
 
-  typedef enum
+  enum SslServerTrustAnswer
   {
     DONT_ACCEPT = 0,
     ACCEPT_TEMPORARILY,
     ACCEPT_PERMANENTLY
-  } SslServerTrustAnswer;
+  };
 
 
   /**
@@ -121,8 +119,7 @@ public:
     }
 
     SslServerTrustData(const SslServerTrustData & src)
-        : failures(src.failures)
-    {
+      : failures(src.failures) {
       hostname = src.hostname;
       fingerprint = src.fingerprint;
       validFrom = src.validFrom;
@@ -132,8 +129,7 @@ public:
       maySave = src.maySave;
     }
 
-    SslServerTrustData &
-    operator =(const SslServerTrustData & src)
+    SslServerTrustData& operator =(const SslServerTrustData & src)
     {
       if (this == &src)
         return *this;
@@ -168,8 +164,7 @@ public:
    * this method is called to retrieve client side
    * information
    */
-  virtual bool
-  contextSslClientCertPrompt(std::string & certFile) = 0;
+  virtual bool contextSslClientCertPrompt(std::string& certFile) = 0;
 
   /**
    * this method is called to retrieve the password
@@ -183,8 +178,6 @@ public:
   contextSslClientCertPwPrompt(std::string & password,
                                const std::string & realm,
                                bool & maySave) = 0;
-
-  virtual ~ContextListener() { }
 };
 
 } // namespace of nvs

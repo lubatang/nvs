@@ -78,14 +78,14 @@ const char* Context::getLogMessage() const
   return m_pData->getLogMessage();
 }
 
-void Context::setListener(ContextListener * listener)
+void Context::setListener(ContextListener* pListener)
 {
-  m_pData->listener = listener;
+  m_pData->setListener(*pListener);
 }
 
 ContextListener* Context::getListener() const
 {
-  return m_pData->listener;
+  return m_pData->getListener();
 }
 
 void Context::reset()

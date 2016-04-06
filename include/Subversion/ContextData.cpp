@@ -30,8 +30,11 @@ Context::Data::Data(const std::string & pConfigDir)
   initialize(pConfigDir.c_str());
 }
 
-void Context::Data::initialize(const char* pConfigDir)
+svn_error_t* Context::Data::initialize(const char* pConfigDir)
 {
+  // the result is booked in apr pool.
+  svn_error_t* error = nullptr;
+
   // make sure the configuration directory exists
   svn_config_ensure(pConfigDir, pool.handler());
 
@@ -96,7 +99,9 @@ void Context::Data::initialize(const char* pConfigDir)
   svn_auth_open(&ab, providers, pool.handler());
 
   // initialize ctx structure
-  svn_client_create_context(&ctx, pool.handler());
+  error = svn_client_create_context(&ctx, pool.handler());
+  if (nullptr != error)
+    return error;
 
   // get the config based on the configDir passed in
   svn_config_get_config(&(ctx->config), pConfigDir, pool.handler());

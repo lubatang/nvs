@@ -17,7 +17,6 @@ namespace nvs {
 struct Context::Data
 {
 public:
-  ContextListener* listener;
   bool logIsSet;
   int promptCounter;
   Pool pool;
@@ -31,6 +30,10 @@ public:
   Data();
 
   Data(const std::string& pConfigDir);
+
+  void setListener(ContextListener& pListener) { listener = &pListener; }
+
+  ContextListener* getListener() const { return listener; }
 
   void setAuthCache(bool value);
 
@@ -186,7 +189,10 @@ public:
   static svn_error_t * getData(void * baton, Data ** data);
 
 private:
-  void initialize(const char* pConfigDir);
+  svn_error_t* initialize(const char* pConfigDir);
+
+private:
+  ContextListener* listener;
 };
 
 } // namespace of nvs
